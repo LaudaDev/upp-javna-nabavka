@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.springweb.services;
+package activiti.spring.javnaNabavka.springweb.services;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

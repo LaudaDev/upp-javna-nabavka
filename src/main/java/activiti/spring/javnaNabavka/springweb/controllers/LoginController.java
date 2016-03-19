@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.springweb.controllers;
+package activiti.spring.javnaNabavka.springweb.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

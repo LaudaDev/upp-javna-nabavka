@@ -140,9 +140,6 @@
             <activiti:field name="subject">
               <activiti:string><![CDATA[Prijava uspesno primljena]]></activiti:string>
             </activiti:field>
-            <activiti:field name="html">
-              <activiti:string><![CDATA[		]]></activiti:string>
-            </activiti:field>
             <activiti:field name="text">
               <activiti:string><![CDATA[Pozdrav,
 Prijava je uspesno primljena]]></activiti:string>
@@ -285,6 +282,7 @@ Prijava je uspesno primljena]]></activiti:string>
       <sequenceFlow id="flow80" sourceRef="usertask14" targetRef="servicetask6"></sequenceFlow>
       <endEvent id="endevent5" name="End"></endEvent>
       <sequenceFlow id="flow81" sourceRef="servicetask6" targetRef="endevent5"></sequenceFlow>
+      <sequenceFlow id="flow84" sourceRef="timerintermediatecatchevent2" targetRef="scripttask5"></sequenceFlow>
     </subProcess>
     <sequenceFlow id="flow82" sourceRef="odlukaOPokretanjuPostupka" targetRef="subprocess1"></sequenceFlow>
     <endEvent id="endevent6" name="End"></endEvent>
@@ -371,7 +369,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <omgdc:Bounds height="71.0" width="109.0" x="572.0" y="415.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
-        <omgdc:Bounds height="55.0" width="116.0" x="415.0" y="423.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="121.0" x="410.0" y="423.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="mailtask2" id="BPMNShape_mailtask2">
         <omgdc:Bounds height="61.0" width="111.0" x="417.0" y="510.0"></omgdc:Bounds>
@@ -505,7 +503,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <omgdi:waypoint x="570.0" y="107.0"></omgdi:waypoint>
         <omgdi:waypoint x="570.0" y="160.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="480.0" y="143.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="55.0" x="480.0" y="143.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
@@ -521,7 +519,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <omgdi:waypoint x="689.0" y="177.0"></omgdi:waypoint>
         <omgdi:waypoint x="588.0" y="177.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="591.0" y="173.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="42.0" x="591.0" y="173.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
@@ -611,7 +609,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <omgdi:waypoint x="531.0" y="450.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
-        <omgdi:waypoint x="473.0" y="478.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.0" y="478.0"></omgdi:waypoint>
         <omgdi:waypoint x="472.0" y="510.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
@@ -627,7 +625,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <omgdi:waypoint x="1364.0" y="300.0"></omgdi:waypoint>
         <omgdi:waypoint x="1221.0" y="425.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="1211.0" y="275.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="99.0" x="1211.0" y="275.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
@@ -798,6 +796,10 @@ Prijava je uspesno primljena]]></activiti:string>
       <bpmndi:BPMNEdge bpmnElement="flow81" id="BPMNEdge_flow81">
         <omgdi:waypoint x="3241.0" y="389.0"></omgdi:waypoint>
         <omgdi:waypoint x="3286.0" y="389.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow84" id="BPMNEdge_flow84">
+        <omgdi:waypoint x="2720.0" y="94.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2780.0" y="94.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
         <omgdi:waypoint x="246.0" y="470.0"></omgdi:waypoint>

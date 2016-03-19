@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.enitity;
+package activiti.spring.javnaNabavka.enitity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

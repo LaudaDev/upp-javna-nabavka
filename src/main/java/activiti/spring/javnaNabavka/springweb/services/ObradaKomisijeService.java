@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.springweb.services;
+package activiti.spring.javnaNabavka.springweb.services;
 
 import java.util.ArrayList;
 import java.util.List;

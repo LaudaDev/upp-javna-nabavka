@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.deploy;
+package activiti.spring.javnaNabavka.deploy;
 import java.util.Scanner;
 
 import org.activiti.engine.ProcessEngine;
@@ -13,12 +13,10 @@ import org.activiti.engine.repository.Deployment;
  *
  */
 public class ProcessDeployer {
-
-	private static final String filename = "diagrams/LoanRequest.bpmn";
+	private static final String filename = "diagrams/UPP_JavnaNabavka.bpmn";
 	private static Scanner scanner;
 
-	public static void main (String[] args){
-
+	public static void main (String[] args) {
 		scanner = new Scanner(System.in);
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
@@ -26,21 +24,15 @@ public class ProcessDeployer {
 		Character reply = scanner.next().charAt(0);
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 
-		if (reply == 'd'){
-
+		if (reply == 'd') {
 			System.out.println("Izbrisati prethodne deploymente? [d/n]");
 			if (scanner.next().equalsIgnoreCase("d"))
 				for (Deployment d : repositoryService.createDeploymentQuery().list())
 					repositoryService.deleteDeployment(d.getId(), true);
-			
 
 			repositoryService.createDeployment().addClasspathResource(filename).deploy();
 
 			System.out.println("Ukupan broj deployment-a: " + repositoryService.createDeploymentQuery().count());
 		}
 	}
-
-
-
-
 }

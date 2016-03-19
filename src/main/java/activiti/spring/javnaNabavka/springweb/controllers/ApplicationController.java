@@ -1,4 +1,4 @@
-package activiti.spring.loanRequest.springweb.controllers;
+package activiti.spring.javnaNabavka.springweb.controllers;
 
 import java.util.List;
 import java.util.Map;

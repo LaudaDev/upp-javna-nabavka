@@ -1,19 +1,20 @@
-package activiti.spring.loanRequest.deploy;
+package activiti.spring.javnaNabavka.deploy;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sourceforge.yamlbeans.YamlException;
-import net.sourceforge.yamlbeans.YamlReader;
+import java.util.Scanner;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
+
+import net.sourceforge.yamlbeans.YamlException;
+import net.sourceforge.yamlbeans.YamlReader;
 
 /**
  * Ucitava korisnike i grupe iz yml fajlova
@@ -27,6 +28,7 @@ public class DataInit {
 	private static final String usersPath ="./src/main/resources/properties/users.yml";
 	private static ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 	private static IdentityService identityService = processEngine.getIdentityService(); 
+	private static Scanner scanner;
 
 
 	/**
@@ -88,21 +90,35 @@ public class DataInit {
 	}
 	
 	
-
 	public static void main(String[] args){
-		/*
-		 * Provo proveravamo da li imamo vec neke korisnike i grupe, pa ako nemamo, onda dodajemo
-		 */
-		long groupsNum =  identityService.createGroupQuery().count();
-		if (groupsNum == 0)
-			initGroupsYml();
-		long usersNum = identityService.createUserQuery().count();
-		if (usersNum == 0)
-			initUsersYml();
+		List<Group> groups = identityService.createGroupQuery().list();
+		List<User> users = identityService.createUserQuery().list();
+		
+		boolean exists = groups.size() != 0 || users.size() != 0;
+		
+		if (exists) {
+			scanner = new Scanner(System.in);
+			System.out.println("Obrisi postojece korisnike i grupe? [d/n]");
+			Character ans = scanner.next().charAt(0);
+			
+			if (ans == 'd') {
+				for (User u: users)
+					identityService.deleteUser(u.getId());
+				
+				for (Group g: groups)
+					identityService.deleteGroup(g.getId());
+			}
+		}
+		
+		initGroupsYml();
+		initUsersYml();
+		
 		System.out.println("Broj grupa: " + identityService.createGroupQuery().count());
 		System.out.println("Broj korisnika: " + identityService.createUserQuery().count());
-		System.out.println("Broj korisnika u grupi bankar:  " + identityService.createUserQuery().memberOfGroup("bankar").count());
+		System.out.println("Broj korisnika u grupi narucilac:  " + identityService.createUserQuery().memberOfGroup("narucilac").count());
+		System.out.println("Broj korisnika u grupi ponudjac:  " + identityService.createUserQuery().memberOfGroup("ponudjac").count());
+		System.out.println("Broj korisnika u grupi komisija:  " + identityService.createUserQuery().memberOfGroup("komisija").count());
+		System.out.println("Broj korisnika u grupi strucnoLiceZaKomisiju:  " + identityService.createUserQuery().memberOfGroup("strucnoLiceZaKomisiju").count());
+		System.out.println("Broj korisnika u grupi stranoLice:  " + identityService.createUserQuery().memberOfGroup("stranoLice").count());
 	}
-
-
 }
