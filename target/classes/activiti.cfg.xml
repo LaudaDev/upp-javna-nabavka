@@ -3,12 +3,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
   <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
-	<property name="jdbcUrl" value="jdbc:mysql://localhost/upp_loanrequest" />
+	<property name="jdbcUrl" value="jdbc:mysql://localhost/javnaNabavka" />
 	<property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
 	<property name="jdbcUsername" value="root" />
 	<property name="jdbcPassword" value="gorant" />
   	<property name="databaseSchemaUpdate" value="true" />
-    <property name="mailServerPort" value="25" />    
+    <property name="mailServerPort" value="1025" />    
     
   </bean>
 

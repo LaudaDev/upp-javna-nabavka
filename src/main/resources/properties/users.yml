@@ -20,7 +20,7 @@ lastName: Todorovic
 email: goran@localhost
 password: goran
 groups:
-	- id: ponudjac
+ - id: ponudjac
 ---
 id: jovica
 firstName: Jovica
@@ -28,7 +28,7 @@ lastName: Zaric
 email: zare@localhost
 password: zare
 groups:
-	- id: ponudjac
+ - id: ponudjac
 ---
 id: aleksandar
 firstName: Aleksandar
@@ -36,7 +36,7 @@ lastName: Ratkov
 email: ratkov@locahost
 password: ratkov
 groups:
-	- id: stranoLice
+ - id: stranoLice
 ---
 id: dalibor
 firstName: Dalibor
@@ -44,5 +44,5 @@ lastName: Pavicic
 email: roki@localhost
 password: roki
 groups:
-	- id: strucnoLiceZaKomisiju
+ - id: strucnoLiceZaKomisiju
 

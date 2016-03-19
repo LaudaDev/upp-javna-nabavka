@@ -3,7 +3,7 @@ package activiti.spring.javnaNabavka.springweb.services;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import activiti.spring.loanRequest.enitity.Loan;
+import activiti.spring.javnaNabavka.enitity.Loan;
 
 public class LoanService {
 

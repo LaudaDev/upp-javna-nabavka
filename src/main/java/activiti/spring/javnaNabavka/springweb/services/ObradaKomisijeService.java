@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 @Service("ObradaKomisijeService")
 public class ObradaKomisijeService implements JavaDelegate, TaskListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 869842246020821206L;
 	private IdentityService iService;
 	private RuntimeService rService;
 	private User pravnik;
