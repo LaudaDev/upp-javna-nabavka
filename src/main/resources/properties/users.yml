@@ -1,0 +1,48 @@
+id: pera
+firstName: Petar
+lastName: Petrovic
+email: pera@localhost
+password: pera
+groups:
+ - id: narucilac
+---
+id: zika
+firstName: Zika
+lastName: Zikic
+email: zika@localhost
+password: zika
+groups:
+ - id: narucilac
+---
+id: goran
+firstName: Goran
+lastName: Todorovic
+email: goran@localhost
+password: goran
+groups:
+	- id: ponudjac
+---
+id: jovica
+firstName: Jovica
+lastName: Zaric
+email: zare@localhost
+password: zare
+groups:
+	- id: ponudjac
+---
+id: aleksandar
+firstName: Aleksandar
+lastName: Ratkov
+email: ratkov@locahost
+password: ratkov
+groups:
+	- id: stranoLice
+---
+id: dalibor
+firstName: Dalibor
+lastName: Pavicic
+email: roki@localhost
+password: roki
+groups:
+	- id: strucnoLiceZaKomisiju
+
