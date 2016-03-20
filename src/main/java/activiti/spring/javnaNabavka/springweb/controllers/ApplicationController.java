@@ -169,13 +169,13 @@ public class ApplicationController {
 			return "redirect:/login";
 		
 		
-		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("loanRequest").latestVersion().singleResult();
+		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("JavnaNabavkaProces").latestVersion().singleResult();
 		StartFormData formData = formService.getStartFormData(procDef.getId());
 		List<FormProperty> formProperties = formData.getFormProperties();
 		
 		
 		if (formProperties.size() == 0){
-			runtimeService.startProcessInstanceByKey("loanRequest");
+			runtimeService.startProcessInstanceByKey("JavnaNabavkaProces");
 			String message = "Nova instanca je uspešno pokrenuta";
 			model.addAttribute("message", message);
 			return printWelcome(model);
@@ -196,7 +196,7 @@ public class ApplicationController {
 			return "redirect:/login";
 		
 		
-		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("loanRequest").latestVersion().singleResult();
+		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("UPP_JavnaNabavka").latestVersion().singleResult();
 		//takodje bi sada ovde trebala biti uradjena validacija
 		formService.submitStartFormData(procDef.getId(),params);
 		String message = "Nova instanca je uspešno pokrenuta";

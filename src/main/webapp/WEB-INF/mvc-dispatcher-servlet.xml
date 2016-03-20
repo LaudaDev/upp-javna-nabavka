@@ -29,7 +29,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/upp_loanrequest" />
+		<property name="url" value="jdbc:mysql://localhost/javnaNabavka" />
 		<property name="username" value="root" />
 		<property name="password" value="gorant" />
 	</bean>
@@ -76,9 +76,9 @@
 		factory-method="getFormService" />
 
 	<bean id="myUserDetailsService"
-		class="activiti.spring.loanRequest.springweb.services.ActivitiUserDetailService" />
+		class="activiti.spring.javnaNabavka.springweb.services.ActivitiUserDetailService" />
 
-	<bean id="loanService" class="activiti.spring.loanRequest.springweb.services.LoanService" />
+	<bean id="loanService" class="activiti.spring.javnaNabavka.springweb.services.LoanService" />
 
 
 </beans>

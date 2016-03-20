@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <signal id="signalPozivZaPrijave" name="signalPozivZaPrijave" activiti:scope="global"></signal>
   <signal id="signalSlanjePrijave" name="signalSlanjePrijave" activiti:scope="global"></signal>
-  <process id="myProcess" name="My process" isExecutable="true">
+  <process id="JavnaNabavkaProces" name="JavnaNabavkaProces" isExecutable="true">
     <startEvent id="startevent1" name="Start" activiti:initiator="${narucilac}" activiti:formKey="startForm"></startEvent>
     <userTask id="odlukaOPokretanjuPostupka" name="Odluka o pokretanju postupka" activiti:candidateGroups="narucilac" activiti:formKey="executeTask">
       <extensionElements>
@@ -55,8 +55,7 @@
       <sequenceFlow id="flow9" sourceRef="formiranjeKomisije" targetRef="servicetask2"></sequenceFlow>
       <userTask id="usertask1" name="Potpisivanje resenja - Komisija" activiti:assignee="${asignee}" activiti:formKey="executeTask">
         <extensionElements>
-          <activiti:formProperty id="prihvatiClanstvoKomisije" name="Prihvatam clanstvo u komisiji" type="button" variable="prihvatiClanstvoKomisije" default="true"></activiti:formProperty>
-          <activiti:formProperty id="odbijClanstvoKomisije" name="Ne prihvatam clanstvo u komisiji" type="button" variable="odbijClanstvoKomisije" default="false"></activiti:formProperty>
+          <activiti:formProperty id="prihvatiClanstvoKomisije" name="Prihvatam clanstvo u komisiji" type="boolean" variable="prihvatiClanstvoKomisije" default="true"></activiti:formProperty>
           <activiti:taskListener event="complete" class="activiti.spring.loanRequest.springweb.services.ObradaKomisijeService"></activiti:taskListener>
         </extensionElements>
         <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="komisija" activiti:elementVariable="asignee"></multiInstanceLoopCharacteristics>
@@ -149,7 +148,7 @@ Prijava je uspesno primljena]]></activiti:string>
         <sequenceFlow id="flow30" sourceRef="mailtask1" targetRef="exclusivegateway5"></sequenceFlow>
         <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
         <sequenceFlow id="flow31" name="Aktuelno slanje prijava" sourceRef="exclusivegateway6" targetRef="slanjePrijavaRestriktivniSignal">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpired == 'false}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpired == 'false'}]]></conditionExpression>
         </sequenceFlow>
         <sequenceFlow id="flow32" sourceRef="exclusivegateway5" targetRef="exclusivegateway6"></sequenceFlow>
         <userTask id="usertask3" name="Obrada prijava i zapisnika" activiti:candidateGroups="komisija" activiti:formKey="executeTask">
@@ -353,8 +352,8 @@ Evo vam zapisnik...]]></activiti:string>
     </subProcess>
     <sequenceFlow id="flow82" sourceRef="odlukaOPokretanjuPostupka" targetRef="subprocess1"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
-    <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_JavnaNabavkaProces">
+    <bpmndi:BPMNPlane bpmnElement="JavnaNabavkaProces" id="BPMNPlane_JavnaNabavkaProces">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="41.0" y="453.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
