@@ -6,7 +6,14 @@
     <intermediateCatchEvent id="signalintermediatecatchevent1" name="SignalCatchEvent">
       <signalEventDefinition signalRef="signalPozivZaPrijave"></signalEventDefinition>
     </intermediateCatchEvent>
-    <userTask id="usertask1" name="Slanje prijave" activiti:candidateGroups="ponudjac" activiti:formKey="executeTask"></userTask>
+    <userTask id="usertask1" name="Slanje prijave" activiti:candidateGroups="ponudjac" activiti:formKey="executeTask">
+      <extensionElements>
+        <activiti:formProperty id="nazivPodnosiocaPrijave" name="Naziv podnosioca prijave" type="string" variable="nazivPodnosiocaPrijave" required="true"></activiti:formProperty>
+        <activiti:formProperty id="adresaPodnosiocaPrijave" name="Adresa podnosioca prijave" type="string" variable="adresaPodnosiocaPrijave" required="true"></activiti:formProperty>
+        <activiti:formProperty id="emailPodnosiocaPrijave" name="E-mail podnosioca prijave" type="string" variable="emailPodnosiocaPrijave" required="true"></activiti:formProperty>
+        <activiti:taskListener event="complete" expression="#{PrijaveService.save(nazivPodnosiocaPrijave,adresaPodnosiocaPrijave,emailPodnosiocaPrijave)}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow1" sourceRef="signalintermediatecatchevent1" targetRef="usertask1"></sequenceFlow>
     <intermediateThrowEvent id="signalintermediatethrowevent1" name="SignalThrowEvent">
       <signalEventDefinition signalRef="signalSlanjePrijave"></signalEventDefinition>

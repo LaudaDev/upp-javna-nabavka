@@ -79,6 +79,7 @@
 		class="activiti.spring.javnaNabavka.springweb.services.ActivitiUserDetailService" />
 
 	<bean id="loanService" class="activiti.spring.javnaNabavka.springweb.services.LoanService" />
+	<bean id="JavnaNabavkaService" class="activiti.spring.javnaNabavka.springweb.services.JavnaNabavkaService" />
 
 
 </beans>
