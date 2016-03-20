@@ -54,6 +54,7 @@
 		<property name="jpaHandleTransaction" value="true" />
 		<property name="jpaCloseEntityManager" value="true" />
 		<property name="mailServerPort" value="1025" />  
+		<property name="jobExecutorActivate" value="true" />
 	</bean>
 
 	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
@@ -75,11 +76,17 @@
 	<bean id="formService" factory-bean="processEngine"
 		factory-method="getFormService" />
 
-	<bean id="myUserDetailsService"
-		class="activiti.spring.javnaNabavka.springweb.services.ActivitiUserDetailService" />
-
-	<bean id="loanService" class="activiti.spring.javnaNabavka.springweb.services.LoanService" />
-	<bean id="JavnaNabavkaService" class="activiti.spring.javnaNabavka.springweb.services.JavnaNabavkaService" />
-
-
+<!-- Entity Service -->
+	<bean id="loanService" class="activiti.spring.javnaNabavka.springweb.services.db.LoanService" />
+	<bean id="JavnaNabavkaService" class="activiti.spring.javnaNabavka.springweb.services.db.JavnaNabavkaService" />
+	<bean id="KvalifikacijaService" class="activiti.spring.javnaNabavka.springweb.services.db.KvalifikacijaService" />
+	<bean id="PonudjacService" class="activiti.spring.javnaNabavka.springweb.services.db.PonudjacService" />
+	<bean id="PrijavaService" class="activiti.spring.javnaNabavka.springweb.services.db.PrijavaService" />
+	
+<!-- App Service -->	
+	<bean id="myUserDetailsService" class="activiti.spring.javnaNabavka.springweb.services.ActivitiUserDetailService" />
+	<bean id="KvalifikacijaCountService" class="activiti.spring.javnaNabavka.springweb.services.KvalifikacijaCountService" />
+	<bean id="PotpisClanovaKomisijeService" class="activiti.spring.javnaNabavka.springweb.services.PotpisClanovaKomisijeService" />
+	<bean id="ResenjeZaKomisijuService" class="activiti.spring.javnaNabavka.springweb.services.ResenjeZaKomisijuService" />
+	<bean id="SharedService" class="activiti.spring.javnaNabavka.springweb.services.SharedService" />
 </beans>

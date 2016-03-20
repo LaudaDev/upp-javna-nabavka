@@ -1,4 +1,4 @@
-package activiti.spring.javnaNabavka.springweb.services;
+package activiti.spring.javnaNabavka.springweb.services.db;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
