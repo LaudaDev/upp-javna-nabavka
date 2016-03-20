@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.FormService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -37,6 +38,9 @@ public class ApplicationController {
 	
 	@Autowired
 	private RuntimeService runtimeService;
+	
+	@Autowired
+	private IdentityService iService;
 
 	@RequestMapping(value="/tasksList", method = RequestMethod.GET)
 	public String showUsersTasks(ModelMap model) {
@@ -90,47 +94,65 @@ public class ApplicationController {
 
 	@RequestMapping(value="/showTask/{taskId}", method = RequestMethod.GET)
 	public String showTask(@PathVariable String taskId, ModelMap model){
-		
 		User user;
-		try{
-			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}
-		catch(Exception ex){
+		
+		try {
+			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
 			return "redirect:/login";
 		}
 		
-		String message;
-		String userId = user.getUsername();
-		if (!canExecute(taskId, userId)){
-			message = "Ne možete izvršiti zadatak";
-			model.addAttribute("message", message);
+		User initiator = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String tmpMsg = (initiator == null) ? "\nInicijator je NULL!" : "\nInicijator je " + initiator.getUsername();
+		System.out.println(tmpMsg);
+		String msg;
+		String uId = user.getUsername();
+		
+		if (!canExecute(taskId, uId)) {
+			msg = "Ne možete izvršiti zadatak!";
+			model.addAttribute("message", msg);
+			
 			return showUsersTasks(model);
-
-		}
-		else{
-
-			//preuzimamo podatke o formi
+		} 
+		else {
+			// Get form data...
 			TaskFormData taskFormData = formService.getTaskFormData(taskId);
 			List<FormProperty> formProperties = taskFormData.getFormProperties();
-
-			if (formProperties.size() == 0){
-				taskService.complete(taskId);
-				message = "Zadatak uspešno izvršen";
-				model.addAttribute("message", message);
-				return showUsersTasks(model);
-			}
-			else{
-
-				model.addAttribute("formProperties", formProperties);
-				Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-				model.addAttribute("task", task);
+			
+			if (checkKomisiju(taskId)) {
+				List<org.activiti.engine.identity.User> pravnikList = iService.createUserQuery().memberOfGroup("strucnoLiceZaKomisiju").list();
+				List<org.activiti.engine.identity.User> stranaLicaList = iService.createUserQuery().memberOfGroup("stranoLice").list();
+				List<org.activiti.engine.identity.User> narucilacList = iService.createUserQuery().memberOfGroup("narucilac").list();
 				
-				//U definiciji procesa je definisan formKey, na osnovu kog se odredjuje 
-				//koja se stranica prikazuje
-				String form = formService.getTaskFormData(taskId).getFormKey();
-				return "application/"+form;
+				model.addAttribute("formProperties", formProperties);
+				model.addAttribute("pravnikList", pravnikList);
+				model.addAttribute("stranaLicaList", stranaLicaList);
+				model.addAttribute("narucilacList", narucilacList);
+				
+				model.addAttribute("formProperties", formProperties);
+				Task ts = taskService.createTaskQuery().taskId(taskId).singleResult();
+				model.addAttribute("task", ts);
+				
+				return "application/komisija";
 			}
-
+			else {
+				if (formProperties.size() == 0) {
+					taskService.complete(taskId);
+					msg = "Zadatak uspešno izvršen!";
+					model.addAttribute("message", msg);
+					
+					return showUsersTasks(model);
+				}
+				else {
+					model.addAttribute("formProperties", formProperties);
+					Task ts = taskService.createTaskQuery().taskId(taskId).singleResult();
+					model.addAttribute("task", ts);
+					
+					String form = formService.getTaskFormData(taskId).getFormKey();
+					
+					return "application/" + form;
+				}
+			}
 		}
 	}
 
@@ -175,6 +197,7 @@ public class ApplicationController {
 		
 		
 		if (formProperties.size() == 0){
+			iService.setAuthenticatedUserId("initiator");
 			runtimeService.startProcessInstanceByKey("JavnaNabavkaProces");
 			String message = "Nova instanca je uspešno pokrenuta";
 			model.addAttribute("message", message);
@@ -196,8 +219,9 @@ public class ApplicationController {
 			return "redirect:/login";
 		
 		
-		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("UPP_JavnaNabavka").latestVersion().singleResult();
+		ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionKey("JavnaNabavkaProces").latestVersion().singleResult();
 		//takodje bi sada ovde trebala biti uradjena validacija
+		iService.setAuthenticatedUserId("initiator");
 		formService.submitStartFormData(procDef.getId(),params);
 		String message = "Nova instanca je uspešno pokrenuta";
 		model.addAttribute("message", message);
@@ -224,6 +248,14 @@ public class ApplicationController {
 	}
 
 
+	private boolean checkKomisiju(String tId) {
+		for (Task t: taskService.createTaskQuery().taskName("Rešenje o formiranju komisije").list())
+			if (t.getId().equals(tId))
+				return true;
+		
+		return false;
+	}
+	
 	private boolean canClaim(String taskId, String userId){
 		for (Task t : taskService.createTaskQuery().taskCandidateUser(userId).list())
 			if (t.getId().equals(taskId))
