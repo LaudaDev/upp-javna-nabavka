@@ -28,7 +28,11 @@ public class PonudjacService {
 		p.setSentEntry(sentEntry);
 		p.setCanSendOffer(canSendOffer);
 		p.setSentOffer(sentOffer);
-		entityManager.persist(p);
+		
+		boolean exists = (entityManager.createQuery("SELECT id FROM Ponudjac WHERE id = '" + id + "'").getSingleResult().equals(id)) ? true : false;
+		
+		if (!exists)
+			entityManager.persist(p);
 
 		return p;
 	}
