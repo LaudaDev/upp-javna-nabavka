@@ -14,7 +14,7 @@ import org.activiti.engine.repository.Deployment;
  */
 public class ProcessDeployer {
 	private static final String filename = "diagrams/UPP_JavnaNabavka.bpmn";
-	private static final String prijaveProces = "diagrams/SlanjePrijava.bpmn";
+	private static final String prijavaProces = "diagrams/partials/Prijava.bpmn";
 	private static Scanner scanner;
 
 	public static void main (String[] args) {
@@ -32,7 +32,7 @@ public class ProcessDeployer {
 					repositoryService.deleteDeployment(d.getId(), true);
 
 			repositoryService.createDeployment().addClasspathResource(filename).deploy();
-			repositoryService.createDeployment().addClasspathResource(prijaveProces).deploy();
+			repositoryService.createDeployment().addClasspathResource(prijavaProces).deploy();
 
 			System.out.println("Ukupan broj deployment-a: " + repositoryService.createDeploymentQuery().count());
 		}

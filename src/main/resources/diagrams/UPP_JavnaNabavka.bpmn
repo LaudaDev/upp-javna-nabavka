@@ -205,7 +205,7 @@ Vasa kvalifikacija za javnu nabavku je odobrena!]]></activiti:expression>
           </extensionElements>
           <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="apliciraniPonudjaci" activiti:elementVariable="prijava"></multiInstanceLoopCharacteristics>
         </userTask>
-        <serviceTask id="servicetask8" name="Obrada liste ponudjaca" activiti:expression="#{PonudjacService.setApplicationFlag()}">
+        <serviceTask id="servicetask8" name="Obrada liste ponudjaca" activiti:expression="#{PonudjacService.setOfferFlag(uId)}">
           <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="odobreniZaSlanjePonude" activiti:elementVariable="id"></multiInstanceLoopCharacteristics>
         </serviceTask>
         <sequenceFlow id="flow90" sourceRef="usertask15" targetRef="servicetask8"></sequenceFlow>
