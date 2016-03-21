@@ -17,7 +17,7 @@ public class KvalifikacijaService {
 	
 	public Kvalifikacija save(String nazivNarucioca, String adresaNarucioca, String webNarucioca, String vrstaNarucioca,
 			String vrstaPostupka, String opisPredmetaNabavke, String nazivNabavke, String oznakaNabavke,
-			String obimRadova, String mestoIzvrsenjaRadova, Long brojPartija, String posebnaPonuda,
+			String obimRadova, String mestoIzvrsenjaRadova, Long brojPartija, String posebnaNapomena,
 			String kriterijumZaDodeluUgovora, String webKonkursneDokumentacije, String webNadleznogOrgana,
 			Date rokZaPodnosenjePonuda, String nacinPodnosenjaPonuda, Date vremeOtvaranjaPonuda,
 			String mestoOtvaranjaPonuda, String dodatniUslovi, Date rokZaDonosenjeOdluke, String kontaktLice) {
@@ -33,7 +33,7 @@ public class KvalifikacijaService {
 		k.setObimRadova(obimRadova);
 		k.setMestoIzvrsenjaRadova(mestoIzvrsenjaRadova);
 		k.setBrojPartija(brojPartija);
-		k.setPosebnaPonuda(posebnaPonuda);
+		k.setPosebnaNapomena(posebnaNapomena);
 		k.setKriterijumZaDodeluUgovora(kriterijumZaDodeluUgovora);
 		k.setWebKonkursneDokumentacije(webKonkursneDokumentacije);
 		k.setWebNadleznogOrgana(webNadleznogOrgana);

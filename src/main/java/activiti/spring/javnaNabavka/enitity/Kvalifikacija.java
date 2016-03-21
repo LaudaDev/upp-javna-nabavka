@@ -23,7 +23,7 @@ public class Kvalifikacija {
 	private String obimRadova;
 	private String mestoIzvrsenjaRadova;
 	private Long brojPartija;
-	private String posebnaPonuda;
+	private String posebnaNapomena;
 	private String kriterijumZaDodeluUgovora;
 	private String webKonkursneDokumentacije;
 	private String webNadleznogOrgana;
@@ -41,7 +41,7 @@ public class Kvalifikacija {
 
 	public Kvalifikacija(String nazivNarucioca, String adresaNarucioca, String webNarucioca, String vrstaNarucioca,
 			String vrstaPostupka, String opisPredmetaNabavke, String nazivNabavke, String oznakaNabavke,
-			String obimRadova, String mestoIzvrsenjaRadova, Long brojPartija, String posebnaPonuda,
+			String obimRadova, String mestoIzvrsenjaRadova, Long brojPartija, String posebnaNapomena,
 			String kriterijumZaDodeluUgovora, String webKonkursneDokumentacije, String webNadleznogOrgana,
 			Date rokZaPodnosenjePonuda, String nacinPodnosenjaPonuda, Date vremeOtvaranjaPonuda,
 			String mestoOtvaranjaPonuda, String dodatniUslovi, Date rokZaDonosenjeOdluke, String kontaktLice) {
@@ -57,7 +57,7 @@ public class Kvalifikacija {
 		this.obimRadova = obimRadova;
 		this.mestoIzvrsenjaRadova = mestoIzvrsenjaRadova;
 		this.brojPartija = brojPartija;
-		this.posebnaPonuda = posebnaPonuda;
+		this.posebnaNapomena = posebnaNapomena;
 		this.kriterijumZaDodeluUgovora = kriterijumZaDodeluUgovora;
 		this.webKonkursneDokumentacije = webKonkursneDokumentacije;
 		this.webNadleznogOrgana = webNadleznogOrgana;
@@ -158,12 +158,12 @@ public class Kvalifikacija {
 		this.brojPartija = brojPartija;
 	}
 
-	public String getPosebnaPonuda() {
-		return posebnaPonuda;
+	public String getPosebnaNapomena() {
+		return posebnaNapomena;
 	}
 
-	public void setPosebnaPonuda(String posebnaPonuda) {
-		this.posebnaPonuda = posebnaPonuda;
+	public void setPosebnaNapomena(String posebnaNapomena) {
+		this.posebnaNapomena = posebnaNapomena;
 	}
 
 	public String getKriterijumZaDodeluUgovora() {

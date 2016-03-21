@@ -28,6 +28,7 @@ public class PrijavaService {
 	}
 	
 	public List<Prijava> listaPrijavljenih() {
+		System.out.println("USAO U PrijavaService.listaPrijavljenih()");
 		List<Prijava> pList = new ArrayList<Prijava>();
 		List<Prijava> tmpList = new ArrayList<Prijava>();
 		
@@ -41,6 +42,10 @@ public class PrijavaService {
 		pList = tmpList; 
 		
 		System.out.println("Lista prijava size = " + pList.size());
+		
+		if (pList.size() == 0) {
+			System.out.println("Timer Expired, noone applied!");
+		}
 		
 		return pList;
 	}

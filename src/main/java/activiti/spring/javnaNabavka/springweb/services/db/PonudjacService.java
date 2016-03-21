@@ -49,6 +49,7 @@ public class PonudjacService {
 	}
 
 	public Ponudjac setApplicationFlag() {
+		System.out.println("USAO U setApplicationFlag");
 		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Ponudjac p = new Ponudjac();
 		p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
