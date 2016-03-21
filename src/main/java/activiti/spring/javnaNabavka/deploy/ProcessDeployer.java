@@ -1,4 +1,6 @@
 package activiti.spring.javnaNabavka.deploy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.activiti.engine.ProcessEngine;
@@ -13,11 +15,14 @@ import org.activiti.engine.repository.Deployment;
  *
  */
 public class ProcessDeployer {
-	private static final String filename = "diagrams/UPP_JavnaNabavka.bpmn";
-	private static final String prijavaProces = "diagrams/partials/Prijava.bpmn";
 	private static Scanner scanner;
 
 	public static void main (String[] args) {
+		List<String> models = new ArrayList<String>();
+		models.add("diagrams/UPP_JavnaNabavka.bpmn");
+		models.add("diagrams/partials/Prijava.bpmn");
+		models.add("diagrams/partials/Ponuda.bpmn");
+		
 		scanner = new Scanner(System.in);
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
@@ -31,8 +36,10 @@ public class ProcessDeployer {
 				for (Deployment d : repositoryService.createDeploymentQuery().list())
 					repositoryService.deleteDeployment(d.getId(), true);
 
-			repositoryService.createDeployment().addClasspathResource(filename).deploy();
-			repositoryService.createDeployment().addClasspathResource(prijavaProces).deploy();
+			for (String s : models) {
+				repositoryService.createDeployment().addClasspathResource(s).deploy();
+				System.out.println("Deploy modela " + s + " uspesno zavrsen!");
+			}
 
 			System.out.println("Ukupan broj deployment-a: " + repositoryService.createDeploymentQuery().count());
 		}

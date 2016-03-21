@@ -84,7 +84,7 @@ public class PonudjacService {
 		return pList;
 	}
 
-	public Ponudjac setOfferSentFlag(String uId) {
+	public Ponudjac setOfferSentFlag() {
 		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Ponudjac p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
 		p.setSentOffer(true);
