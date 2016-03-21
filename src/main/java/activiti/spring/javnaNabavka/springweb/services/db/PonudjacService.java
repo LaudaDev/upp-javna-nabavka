@@ -14,11 +14,11 @@ import activiti.spring.javnaNabavka.enitity.Ponudjac;
 
 @Service("PonudjacService")
 public class PonudjacService {
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	public Ponudjac save(String id, String name, String lastName, String email, String pass, Boolean sentEntry) {
+
+	public Ponudjac save(String id, String name, String lastName, String email, String pass, boolean sentEntry, boolean canSendOffer, boolean sentOffer) {
 		Ponudjac p = new Ponudjac();
 		p.setId(id);
 		p.setName(name);
@@ -26,33 +26,69 @@ public class PonudjacService {
 		p.setEmail(email);
 		p.setPass(pass);
 		p.setSentEntry(sentEntry);
+		p.setCanSendOffer(canSendOffer);
+		p.setSentOffer(sentOffer);
 		entityManager.persist(p);
-		
+
 		return p;
 	}
-	
+
 	public List<String> aktuelnePonude() {
 		List<String> pList = new ArrayList<String>();
 		List<String> tmpList = new ArrayList<String>();
-		
+
 		List<?> result = (List<?>) entityManager.createQuery("SELECT id FROM Ponudjac WHERE sentEntry = 0").getResultList();
 		for (Object object : result) {
-		    if (object instanceof String) {
-		        tmpList.add((String) object);
-		    }
+			if (object instanceof String) {
+				tmpList.add((String) object);
+			}
 		}
 		pList = tmpList; 
-		
+
 		return pList;
 	}
-	
-	public Ponudjac changeFlag() {
+
+	public Ponudjac setApplicationFlag() {
 		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Ponudjac p = new Ponudjac();
 		p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
 		p.setSentEntry(true);
 		entityManager.merge(p);
-		
+
+		return p;
+	}
+
+	public Ponudjac setOfferFlag(String uId) {
+		Ponudjac p = new Ponudjac();
+		p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + uId + "'").getSingleResult();
+		p.setCanSendOffer(true);
+		entityManager.merge(p);
+
+		return p;
+	}
+
+	public List<String> getQualified() {
+		List<String> pList = new ArrayList<String>();
+		List<String> tmpList = new ArrayList<String>();
+
+		List<?> result = (List<?>) entityManager.createQuery("SELECT id FROM Ponudjac WHERE canSendOffer = 1 AND sentOffer = 0").getResultList();
+		for (Object object : result) {
+			if (object instanceof String) {
+				tmpList.add((String) object);
+			}
+		}
+		pList = tmpList; 
+		tmpList.clear();
+
+		return pList;
+	}
+
+	public Ponudjac setOfferSentFlag(String uId) {
+		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Ponudjac p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
+		p.setSentOffer(true);
+		entityManager.merge(p);
+
 		return p;
 	}
 }

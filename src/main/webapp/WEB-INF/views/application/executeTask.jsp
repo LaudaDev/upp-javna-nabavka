@@ -34,7 +34,12 @@ Pokusati smestiti u poseban jsp fajl forme, pa ukljuciti pomocu include
 	<label>${formProperty.name}</label>
 
 	
-	<c:if test="${formProperty.type.name.equals('string') || formProperty.type.name.equals('long')}">
+	<c:if test="${formProperty.type.name.equals('string') || formProperty.type.name.equals('date')}">
+	<input type="text" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if> 
+	    <c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
+	</c:if>
+	
+	<c:if test="${formProperty.type.name.equals('long') || formProperty.type.name.equals('double')}">
 	<input type="text" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if> 
 	    <c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
 	</c:if>

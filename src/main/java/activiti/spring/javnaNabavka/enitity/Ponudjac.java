@@ -13,12 +13,14 @@ public class Ponudjac {
 	private String email;
 	private String pass;
 	private boolean sentEntry;
+	private boolean canSendOffer;
+	private boolean sentOffer;
 	
 	public Ponudjac() {
 		super();
 	}
 	
-	public Ponudjac(String id, String name, String lastName, String email, String pass, boolean sentEntry) {
+	public Ponudjac(String id, String name, String lastName, String email, String pass, boolean sentEntry, boolean canSendOffer, boolean sentOffer) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,6 +28,8 @@ public class Ponudjac {
 		this.email = email;
 		this.pass = pass;
 		this.sentEntry = sentEntry;
+		this.canSendOffer = canSendOffer;
+		this.sentOffer = sentOffer;
 	}
 
 	public String getId() {
@@ -75,4 +79,22 @@ public class Ponudjac {
 	public void setSentEntry(boolean sentEntry) {
 		this.sentEntry = sentEntry;
 	}
+
+	public boolean isCanSendOffer() {
+		return canSendOffer;
+	}
+
+	public void setCanSendOffer(boolean canSendOffer) {
+		this.canSendOffer = canSendOffer;
+	}
+
+	public boolean isSentOffer() {
+		return sentOffer;
+	}
+
+	public void setSentOffer(boolean sentOffer) {
+		this.sentOffer = sentOffer;
+	}
+	
+	
 }

@@ -120,5 +120,6 @@ public class DataInit {
 		System.out.println("Broj korisnika u grupi komisija:  " + identityService.createUserQuery().memberOfGroup("komisija").count());
 		System.out.println("Broj korisnika u grupi strucnoLiceZaKomisiju:  " + identityService.createUserQuery().memberOfGroup("strucnoLiceZaKomisiju").count());
 		System.out.println("Broj korisnika u grupi stranoLice:  " + identityService.createUserQuery().memberOfGroup("stranoLice").count());
+		System.out.println("Broj korisnika u grupi pravnik:  " + identityService.createUserQuery().memberOfGroup("pravnik").count());
 	}
 }

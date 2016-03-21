@@ -1,11 +1,18 @@
 package activiti.spring.javnaNabavka.enitity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Prijava {
+public class Prijava implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6592634497279028635L;
 	
 	@Id
 	@GeneratedValue

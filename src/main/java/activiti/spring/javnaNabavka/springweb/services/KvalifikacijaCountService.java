@@ -21,28 +21,36 @@ public class KvalifikacijaCountService implements TaskListener {
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		DelegateExecution exe = delegateTask.getExecution();
-		List<Prijava> prijave = new ArrayList<Prijava>();
-		List<Prijava> tmpList = new ArrayList<Prijava>();
+		List<Prijava> kPrijave = new ArrayList<Prijava>();
+		List<String> kPonude = new ArrayList<String>();
 
 		List<?> result = (List<?>) exe.getVariable("kvalifikovanePrijave");
 		for (Object object : result) {
 			if (object instanceof Prijava) {
-				tmpList.add((Prijava) object);
+				kPrijave.add((Prijava) object);
 			}
 		}
-		prijave = tmpList; 
-		tmpList.clear();
+		
+		List<?> result1 = (List<?>) exe.getVariable("kvalifikovaniZaPonude");
+		for (Object object : result1) {
+			if (object instanceof Prijava) {
+				kPonude.add((String) object);
+			}
+		}
 
 		String potvrdjenaKvalifikacija = (String)exe.getVariable("prihvatanjeKvalifikacije");
 		Integer brojPotvrdjenihKvalifikacija = ((Integer) exe.getVariable("potvrdjenihKvalifikacija") == null) ? 0 : (Integer) exe.getVariable("potvrdjenihKvalifikacija");
 
 
-		if (potvrdjenaKvalifikacija.equals("true")) {
+		if (potvrdjenaKvalifikacija != null && potvrdjenaKvalifikacija.equals("true")) {
 			brojPotvrdjenihKvalifikacija++;
-			prijave.add((Prijava)exe.getVariable("prijava"));
+			Prijava p = (Prijava) exe.getVariable("prijava");
+			kPrijave.add(p);
+			kPonude.add(p.getUser());
 		}
 
 		exe.setVariable("brojPotvrdjenihKvalifikacija", brojPotvrdjenihKvalifikacija);
-		exe.setVariable("kvalifikovanePrijave", prijave);
+		exe.setVariable("kvalifikovanePrijave", kPrijave);
+		exe.setVariable("kvalifikovaniZaPonude", kPonude);
 	}
 }

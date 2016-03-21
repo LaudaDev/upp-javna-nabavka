@@ -45,4 +45,12 @@ email: roki@localhost
 password: roki
 groups:
  - id: strucnoLiceZaKomisiju
+---
+id: fila
+firstName: Tom
+lastName: Fila
+email: fila@localhost
+password: fila
+groups:
+ - id: pravnik
 

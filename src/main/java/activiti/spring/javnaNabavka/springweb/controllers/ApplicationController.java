@@ -111,15 +111,17 @@ public class ApplicationController {
 		if (!canExecute(taskId, uId)) {
 			msg = "Ne možete izvršiti zadatak!";
 			model.addAttribute("message", msg);
-			
+			System.out.println("USAO U PROVERU KOMISIJE!");
 			return showUsersTasks(model);
 		} 
 		else {
 			// Get form data...
+			System.out.println("USAO U PROVERU KOMISIJE!");
 			TaskFormData taskFormData = formService.getTaskFormData(taskId);
 			List<FormProperty> formProperties = taskFormData.getFormProperties();
 			
 			if (checkKomisiju(taskId)) {
+				System.out.println("USAO U PROVERU KOMISIJE!");
 				List<org.activiti.engine.identity.User> pravnikList = iService.createUserQuery().memberOfGroup("strucnoLiceZaKomisiju").list();
 				List<org.activiti.engine.identity.User> stranaLicaList = iService.createUserQuery().memberOfGroup("stranoLice").list();
 				List<org.activiti.engine.identity.User> narucilacList = iService.createUserQuery().memberOfGroup("narucilac").list();
@@ -249,7 +251,7 @@ public class ApplicationController {
 
 
 	private boolean checkKomisiju(String tId) {
-		for (Task t: taskService.createTaskQuery().taskName("Rešenje o formiranju komisije").list())
+		for (Task t: taskService.createTaskQuery().taskName("Formiranje komisije").list())
 			if (t.getId().equals(tId))
 				return true;
 		
