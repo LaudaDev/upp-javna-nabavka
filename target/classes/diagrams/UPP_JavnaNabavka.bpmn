@@ -184,13 +184,15 @@ Vasa kvalifikacija za javnu nabavku je odobrena!]]></activiti:expression>
         <sequenceFlow id="flow86" sourceRef="eventgateway1" targetRef="timerintermediatecatchevent3"></sequenceFlow>
         <sequenceFlow id="flow87" sourceRef="timerintermediatecatchevent3" targetRef="scripttask2"></sequenceFlow>
         <serviceTask id="servicetask7" name="Prijem prijava" activiti:expression="#{PrijavaService.listaPrijavljenih()}" activiti:resultVariableName="listaPrijavljenihPonudjaca"></serviceTask>
-        <sequenceFlow id="flow88" sourceRef="exclusivegateway6" targetRef="servicetask7"></sequenceFlow>
+        <sequenceFlow id="flow88" name="Istekao tajmer" sourceRef="exclusivegateway6" targetRef="servicetask7">
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpired == 'true'}]]></conditionExpression>
+        </sequenceFlow>
         <userTask id="usertask15" name="Obrada prijava (komisija)" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask">
           <extensionElements>
             <activiti:formProperty id="predmetNabavke" name="Predmet nabavke" type="string" variable="predmetNabavke" default="${predmetNabavke}" required="true"></activiti:formProperty>
-            <activiti:formProperty id="vremeOtvaranjaPonuda" name="Vreme pregleda ponuda" type="date" variable="vremeOtvaranjaPonuda" default="${vremeOtvaranjaPonuda}" datePattern="dd.MM.YYYY" writable="false" required="true"></activiti:formProperty>
+            <activiti:formProperty id="vremeOtvaranjaPonuda" name="Vreme pregleda ponuda" type="date" variable="vremeOtvaranjaPonuda" default="${vremeOtvaranjaPonuda}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="prviClanKomisije" name="Prvi clan komisije" type="string" variable="clan_1" default="${clan_1}" writable="false" required="true"></activiti:formProperty>
-            <activiti:formProperty id="drugiClanKomisije" name="Drugi clan komisije" type="string " variable="clan_2" default="${clan_2}" writable="false" required="true"></activiti:formProperty>
+            <activiti:formProperty id="drugiClanKomisije" name="Drugi clan komisije" type="string" variable="clan_2" default="${clan_2}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="treciClanKomisije" name="Treci clan komisije" type="string" variable="clan_3" default="${clan_3}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="nazivPodnosiocaPrijave" name="Naziv podnosioca " type="string" variable="${prijava.nazivPodnosiocaPrijave}" default="${prijava.nazivPodnosiocaPrijave}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="adresaPodnosiocaPrijave" name="Adresa podnosioca" type="string" variable="${prijava.adresaPodnosiocaPrijave}" default="${prijava.adresaPodnosiocaPrijave}" writable="false" required="true"></activiti:formProperty>
@@ -682,6 +684,9 @@ Evo vam zapisnik...]]></activiti:string>
       <bpmndi:BPMNEdge bpmnElement="flow88" id="BPMNEdge_flow88">
         <omgdi:waypoint x="717.0" y="450.0"></omgdi:waypoint>
         <omgdi:waypoint x="685.0" y="450.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="604.0" y="457.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow89" id="BPMNEdge_flow89">
         <omgdi:waypoint x="580.0" y="450.0"></omgdi:waypoint>
