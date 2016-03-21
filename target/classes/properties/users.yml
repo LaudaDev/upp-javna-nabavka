@@ -30,6 +30,14 @@ password: zare
 groups:
  - id: ponudjac
 ---
+id: risto
+firstName: Risto
+lastName: Ristic
+email: risto@localhost
+password: risto
+groups:
+ - id: ponudjac
+---
 id: aleksandar
 firstName: Aleksandar
 lastName: Ratkov
@@ -45,12 +53,5 @@ email: roki@localhost
 password: roki
 groups:
  - id: strucnoLiceZaKomisiju
----
-id: fila
-firstName: Tom
-lastName: Fila
-email: fila@localhost
-password: fila
-groups:
- - id: pravnik
+
 

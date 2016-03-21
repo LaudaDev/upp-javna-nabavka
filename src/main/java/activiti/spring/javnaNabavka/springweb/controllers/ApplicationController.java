@@ -227,6 +227,7 @@ public class ApplicationController {
 		formService.submitStartFormData(procDef.getId(),params);
 		String message = "Nova instanca je uspešno pokrenuta";
 		model.addAttribute("message", message);
+		System.out.println("Nova instanca uspesno pokrenuta!");
 		return printWelcome(model);
 	
 	}

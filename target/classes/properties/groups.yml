@@ -17,15 +17,4 @@ type: assignment
 id: stranoLice
 name: stranoLice
 type: assignment
----
-id: prviclan
-name: Prvi clan
-type: assignment
----
-id: drugiclan
-name: Prvi clan
-type: assignment
----
-id: pravnik
-name: Pravnik
-type: assignment
+

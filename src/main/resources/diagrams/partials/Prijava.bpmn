@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <signal id="signalPozivZaPrijave" name="signalPozivZaPrijave" activiti:scope="global"></signal>
-  <signal id="signalSlanjePrijave" name="signalSlanjePrijave" activiti:scope="global"></signal>
+  <signal id="signalPrijava" name="signalPrijava" activiti:scope="global"></signal>
+  <signal id="signalSlanjePrijave" name="signalSlanjePrijave"></signal>
   <process id="slanjePrijaveProces" name="My process" isExecutable="true">
     <intermediateCatchEvent id="signalintermediatecatchevent1" name="SignalCatchEvent">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="#{SharedService.throwSignal()}"></activiti:executionListener>
+      </extensionElements>
       <signalEventDefinition signalRef="signalPozivZaPrijave"></signalEventDefinition>
     </intermediateCatchEvent>
     <serviceTask id="servicetask1" name="Odobreni kandidati" activiti:expression="#{PonudjacService.getValidCandidates()}" activiti:resultVariableName="candidateList"></serviceTask>

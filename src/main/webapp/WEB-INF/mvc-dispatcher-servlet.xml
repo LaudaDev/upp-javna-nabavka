@@ -77,7 +77,6 @@
 		factory-method="getFormService" />
 
 <!-- Entity Service -->
-	<bean id="loanService" class="activiti.spring.javnaNabavka.springweb.services.db.LoanService" />
 	<bean id="JavnaNabavkaService" class="activiti.spring.javnaNabavka.springweb.services.db.JavnaNabavkaService" />
 	<bean id="KvalifikacijaService" class="activiti.spring.javnaNabavka.springweb.services.db.KvalifikacijaService" />
 	<bean id="PonudjacService" class="activiti.spring.javnaNabavka.springweb.services.db.PonudjacService" />
