@@ -95,7 +95,7 @@
             <activiti:formProperty id="kriterijumZaDodeluUgovora" name="Kriterijum za dodelu ugovora" type="string" variable="kriterijumZaDodeluUgovora" default="ko koga podmiti" required="true"></activiti:formProperty>
             <activiti:formProperty id="webKonkursneDokumentacije" name="Web stranica konkursne dokumentacije" type="string" variable="webKonkursneDokumentacije" default="www.wikipedia.org" required="true"></activiti:formProperty>
             <activiti:formProperty id="webNadleznogOrgana" name="Web stranica nadleznog organa" type="string" variable="webNadleznogOrgana" default="www.tomislavnikolic-master.com"></activiti:formProperty>
-            <activiti:formProperty id="rokZaPodnosenjePonuda" name="Rok za podnosenje ponuda" type="date" variable="rokZaPodnosenjePonuda" default="10/04/2016" required="true"></activiti:formProperty>
+            <activiti:formProperty id="rokZaPodnosenjePonuda" name="Rok za podnosenje ponuda" type="date" variable="rokZaPodnosenjePonuda" default="10/05/2016" required="true"></activiti:formProperty>
             <activiti:formProperty id="nacinPodnosenjaPonuda" name="Nacin podnosenja ponuda" type="string" variable="nacinPodnosenjaPonuda" default="pismeno" required="true"></activiti:formProperty>
             <activiti:formProperty id="vremeOtvaranjaPonuda" name="Vreme otvaranja ponuda" type="date" variable="vremeOtvaranjaPonuda" default="05/04/2016" required="true"></activiti:formProperty>
             <activiti:formProperty id="mestoOtvaranjaPonuda" name="Mesto otvaranja ponuda" type="string" variable="mestoOtvaranjaPonuda" default="Novi Sad" required="true"></activiti:formProperty>
@@ -188,8 +188,8 @@ Vasa kvalifikacija za javnu nabavku je odobrena!]]></activiti:expression>
         </sequenceFlow>
         <userTask id="usertask15" name="Obrada prijava (komisija)" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask">
           <extensionElements>
-            <activiti:formProperty id="predmetNabavke" name="Predmet nabavke" type="string" variable="predmetNabavke" default="${predmetNabavke}" required="true"></activiti:formProperty>
-            <activiti:formProperty id="vremeOtvaranjaPonuda" name="Vreme pregleda ponuda" type="date" variable="vremeOtvaranjaPonuda" default="${vremeOtvaranjaPonuda}" writable="false" required="true"></activiti:formProperty>
+            <activiti:formProperty id="predmetNabavke" name="Predmet nabavke" type="string" variable="predmetNabavke" default="${predmetNabavke}" writable="false" required="true"></activiti:formProperty>
+            <activiti:formProperty id="vremeOtvaranjaPonuda" name="Vreme pregleda ponuda" type="date" variable="vremeOtvaranjaPonuda" default="${vremeOtvaranjaPonuda}" required="true"></activiti:formProperty>
             <activiti:formProperty id="prviClanKomisije" name="Prvi clan komisije" type="string" variable="clan_1" default="${clan_1}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="drugiClanKomisije" name="Drugi clan komisije" type="string" variable="clan_2" default="${clan_2}" writable="false" required="true"></activiti:formProperty>
             <activiti:formProperty id="treciClanKomisije" name="Treci clan komisije" type="string" variable="clan_3" default="${clan_3}" writable="false" required="true"></activiti:formProperty>

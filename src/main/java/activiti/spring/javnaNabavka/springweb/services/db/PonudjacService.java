@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,22 +29,29 @@ public class PonudjacService {
 		p.setSentEntry(sentEntry);
 		p.setCanSendOffer(canSendOffer);
 		p.setSentOffer(sentOffer);
-		
-		boolean exists = (entityManager.createQuery("SELECT id FROM Ponudjac WHERE id = '" + id + "'").getSingleResult().equals(id)) ? true : false;
+		boolean exists = false;
+
+		try {
+		exists = (entityManager.createQuery("SELECT id FROM Ponudjac WHERE id = '" + id + "'").getSingleResult().equals(id)) ? true : false;
+		} catch (NoResultException nre){
+			System.out.println("NO RESULTS IN PonudjacService");
+		}
 		
 		if (!exists)
 			entityManager.persist(p);
 
+
 		return p;
 	}
 
-	public List<String> aktuelnePonude() {
+	public List<String> getValidCandidates() {
 		List<String> pList = new ArrayList<String>();
 		List<String> tmpList = new ArrayList<String>();
 
 		List<?> result = (List<?>) entityManager.createQuery("SELECT id FROM Ponudjac WHERE sentEntry = 0").getResultList();
 		for (Object object : result) {
 			if (object instanceof String) {
+				System.out.println("Validan kandidat: " + object.toString());
 				tmpList.add((String) object);
 			}
 		}
