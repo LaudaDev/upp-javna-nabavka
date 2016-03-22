@@ -163,4 +163,62 @@ public class PonudjacService {
 			return p;
 		}
 	}
+	
+	public List<Ponuda> getAllOffers() {
+		List<Ponuda> offers = new ArrayList<Ponuda>();
+		
+		List<?> result = (List<?>) entityManager.createQuery("SELECT p FROM Ponuda p").getResultList();
+		for (Object object : result) {
+			if (object instanceof Ponuda) {
+				offers.add((Ponuda) object);
+			}
+		}
+		
+		return offers;
+	}
+	
+	public void rejectOffer() {
+		double lowPrice = 150000, allowedLimit = .0;
+		List<Ponuda> offers = new ArrayList<Ponuda>();
+		offers = this.getAllOffers();
+		
+		for (Ponuda p: offers) {
+			// 10% over the price is the max!
+			allowedLimit = p.getProcenjenaVrednost() + (p.getProcenjenaVrednost() / 10);
+			
+			if (p.getKoeficijent() == 0)
+				// If offered price is lower that lowPrice limit OR if allowed price limit is smaller than offered price - reject
+				if ((p.getPredlozenaCena() <= lowPrice) || (p.getPredlozenaCena() > allowedLimit)) {
+					// entityManager.remove(p); CRASH
+					entityManager.createQuery("DELETE FROM Ponuda WHERE id = '" + p.getId() + "'").executeUpdate();
+					System.out.println("Ponuda od korisnika " + p.getUser() + " odbijena zbog cene = " + p.getPredlozenaCena());
+				}
+		}
+	}
+	
+	public Ponuda updateKoeficijent(Double koef, String user) {
+		Ponuda p = (Ponuda)entityManager.createQuery("SELECT p FROM Ponuda p WHERE p.user = '" + user + "'").getSingleResult();
+		p.setKoeficijent(koef);
+		entityManager.merge(p);
+		
+		return p;
+	}
+	
+	public String rankedOffers() {
+	/*	List<String> ponudjaci = new ArrayList<String>();
+		
+		List<?> result = (List<?>) entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.ponudjenaCena ASC").getResultList();
+		for (Object object : result) {
+			if (object instanceof String) {
+				ponudjaci.add((String) object);
+			}
+		}
+		*/
+		
+		String ponudjac = (String)entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.ponudjenaCena ASC").getSingleResult();
+		
+		System.out.println("Ponuda koja je najbolje rangirana je od " + ponudjac + " ponudjaca!");
+		
+		return ponudjac;
+	}
 }
