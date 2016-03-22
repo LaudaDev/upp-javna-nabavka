@@ -11,7 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import activiti.spring.javnaNabavka.enitity.Ponuda;
 import activiti.spring.javnaNabavka.enitity.Ponudjac;
+import activiti.spring.javnaNabavka.enitity.Registar;
 
 @Service("PonudjacService")
 public class PonudjacService {
@@ -103,5 +105,53 @@ public class PonudjacService {
 		entityManager.merge(p);
 
 		return p;
+	}
+	
+	public Ponudjac setFlagDocumentation() {
+		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Ponudjac p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + u.getUsername() + "'").getSingleResult();
+		p.setSentOffer(true);
+		entityManager.merge(p);
+		
+		return p;
+	}
+	
+	public Ponudjac setFlagRegistar() {
+		boolean exists = false;
+		User u = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Registar> registarList = new ArrayList<Registar>();
+		
+		List<?> result = (List<?>) entityManager.createQuery("SELECT r FROM Registar r").getResultList();
+		for (Object object : result) {
+			if (object instanceof Registar) {
+				registarList.add((Registar) object);
+			}
+		}
+		
+		for (Registar r: registarList) {
+			if (u.getUsername().equals(r.getClanoviRegistra())) {
+				exists = true;
+				break;
+			}
+		}
+		
+		if (!exists) {
+			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + u.getUsername() + "'").getSingleResult();
+			p.setCanSendOffer(false); // Lieeed
+			entityManager.merge(p);
+			
+			// Remove offer since applican lied...
+			Ponuda tmp = (Ponuda)entityManager.createQuery("SELECT p FROM Ponuda p WHERE user = '" + u.getUsername() + "'").getSingleResult();
+			entityManager.remove(tmp);
+			
+			return p;
+		}
+		else {
+			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + u.getUsername() + "'").getSingleResult();
+			p.setSentOffer(true);
+			entityManager.merge(p);
+			
+			return p;
+		}
 	}
 }
