@@ -14,18 +14,20 @@ public class Ponuda {
 	private String adresaNarucioca;
 	private Double procenjenaVrednost;
 	private Double predlozenaCena;
+	private Double koeficijent;
 	
 	public Ponuda() {
 		super();
 	}
 
-	public Ponuda(String user, String nazivNarucioca, String adresaNarucioca, Double procenjenaVrednost, Double predlozenaCena) {
+	public Ponuda(String user, String nazivNarucioca, String adresaNarucioca, Double procenjenaVrednost, Double predlozenaCena, Double koeficijent) {
 		super();
 		this.user = user;
 		this.nazivNarucioca = nazivNarucioca;
 		this.adresaNarucioca = adresaNarucioca;
 		this.procenjenaVrednost = procenjenaVrednost;
 		this.predlozenaCena = predlozenaCena;
+		this.koeficijent = koeficijent;
 	}
 
 	public String getUser() {
@@ -66,5 +68,21 @@ public class Ponuda {
 
 	public void setPredlozenaCena(Double predlozenaCena) {
 		this.predlozenaCena = predlozenaCena;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Double getKoeficijent() {
+		return koeficijent;
+	}
+
+	public void setKoeficijent(Double koeficijent) {
+		this.koeficijent = koeficijent;
 	}
 }

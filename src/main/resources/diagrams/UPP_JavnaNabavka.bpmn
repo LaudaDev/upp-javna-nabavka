@@ -261,11 +261,7 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       <sequenceFlow id="flow42" name="&lt; 3 kvalifikacije" sourceRef="exclusivegateway7" targetRef="endevent3">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija < '3'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="usertask6" name="Kriterijum ocenivanja u restriktivnom postupku" activiti:candidateUsers="${komisijaLista}">
-        <extensionElements>
-          <activiti:formProperty id="meh" name="meh" type="string" variable="meh" default="meh"></activiti:formProperty>
-        </extensionElements>
-      </userTask>
+      <userTask id="usertask6" name="Kriterijum ocenivanja u restriktivnom postupku" activiti:candidateUsers="${komisijaLista}"></userTask>
       <sequenceFlow id="flow43" name="&gt;= 3 kvalifikacije" sourceRef="exclusivegateway7" targetRef="usertask6">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija > 2}]]></conditionExpression>
       </sequenceFlow>

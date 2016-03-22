@@ -45,6 +45,15 @@ public class PonudjacService {
 
 		return p;
 	}
+	
+	public Ponuda saveOffer(String nazivNarucioca, String adresaNarucioca, Double procenjenaVrednost, Double predlozenaCena, Double koeficijent) {
+		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Ponuda p = new Ponuda(u.getUsername(), nazivNarucioca, adresaNarucioca, procenjenaVrednost, predlozenaCena, koeficijent);
+		entityManager.persist(p);
+		
+		return p;
+		
+	}
 
 	public List<String> getValidCandidates() {
 		List<String> pList = new ArrayList<String>();
