@@ -38,6 +38,14 @@ password: risto
 groups:
  - id: ponudjac
 ---
+id: simo
+firstName: Simo
+lastName: Ristanic
+email: simo@localhost
+password: simo
+groups:
+ - id: ponudjac
+---
 id: aleksandar
 firstName: Aleksandar
 lastName: Ratkov

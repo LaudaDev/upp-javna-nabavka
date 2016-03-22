@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import activiti.spring.javnaNabavka.enitity.Prijava;
@@ -22,6 +24,7 @@ public class PrijavaService {
 		p.setNazivPodnosiocaPrijave(nazivPodnosiocaPrijave);
 		p.setAdresaPodnosiocaPrijave(adresaPodnosiocaPrijave);
 		p.setEmailPodnosiocaPrijave(emailPodnosiocaPrijave);
+		p.setUser(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		entityManager.persist(p);
 		
 		return p;

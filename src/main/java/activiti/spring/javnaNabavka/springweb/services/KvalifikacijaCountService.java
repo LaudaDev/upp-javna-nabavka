@@ -1,7 +1,6 @@
 package activiti.spring.javnaNabavka.springweb.services;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
@@ -18,43 +17,44 @@ public class KvalifikacijaCountService implements TaskListener {
 	 */
 	private static final long serialVersionUID = -392517433493370014L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		DelegateExecution exe = delegateTask.getExecution();
-		List<Prijava> kPrijave = new ArrayList<Prijava>();
-		List<String> kPonude = new ArrayList<String>();
-		System.out.println("USAO U KvalifikacijaCountService");
-		List<?> result = (List<?>) exe.getVariable("kvalifikovanePrijave");
-		
-		System.out.println("VELICINA exe.getVariable(\"kvalifikovanePrijave\") liste = " + result.size());
-		for (Object object : result) {
-			if (object instanceof Prijava) {
-				kPrijave.add((Prijava) object);
-			}
-		}
-		
-		List<?> result1 = (List<?>) exe.getVariable("odobreniZaSlanjePonude");
-		for (Object object : result1) {
-			if (object instanceof Prijava) {
-				kPonude.add((String) object);
-			}
-		}
-
+		ArrayList<Prijava> kvalifikovanePrijave = (ArrayList<Prijava>)exe.getVariable("kvalifikovanePrijave");
+		ArrayList<Prijava> odbijenePrijave = (ArrayList<Prijava>)exe.getVariable("odbijenePrijave");
+		ArrayList<String> odobreniZaSlanjePonude = (ArrayList<String>)exe.getVariable("odobreniZaSlanjePonude");
 		String potvrdjenaKvalifikacija = (String)exe.getVariable("prihvatanjeKvalifikacije");
-		Integer brojPotvrdjenihKvalifikacija = ((Integer) exe.getVariable("potvrdjenihKvalifikacija") == null) ? 0 : (Integer) exe.getVariable("potvrdjenihKvalifikacija");
-
-
+		Integer brojPotvrdjenihKvalifikacija = (Integer)exe.getVariable("brojPotvrdjenihKvalifikacija");
+		
+		if (brojPotvrdjenihKvalifikacija == null && kvalifikovanePrijave == null && odobreniZaSlanjePonude == null) {
+			brojPotvrdjenihKvalifikacija = 0;
+			kvalifikovanePrijave = new ArrayList<Prijava>();
+			odobreniZaSlanjePonude = new ArrayList<String>();
+		}
+		
 		if (potvrdjenaKvalifikacija != null && potvrdjenaKvalifikacija.equals("da")) {
 			brojPotvrdjenihKvalifikacija++;
 			Prijava p = (Prijava) exe.getVariable("prijava");
-			kPrijave.add(p);
-			kPonude.add(p.getUser());
+			kvalifikovanePrijave.add(p);
+			odobreniZaSlanjePonude.add(p.getUser());
 		}
-
-		exe.setVariable("brojPotvrdjenihKvalifikacija", brojPotvrdjenihKvalifikacija);
-		exe.setVariable("kvalifikovanePrijave", kPrijave);
-		exe.setVariable("odobreniZaSlanjePonude", kPonude);
+		else {
+			if (odbijenePrijave == null)
+				odbijenePrijave = new ArrayList<Prijava>();
+			
+			Prijava p = (Prijava) exe.getVariable("prijava");
+			odbijenePrijave.add(p);
+		}
 		
-		System.out.println("SETOVANE SVE VARIJABLE U KvalifikacijaCountService");
+		exe.setVariable("brojPotvrdjenihKvalifikacija", brojPotvrdjenihKvalifikacija);
+		exe.setVariable("odobreniZaSlanjePonude", odobreniZaSlanjePonude);
+		exe.setVariable("kvalifikovanePrijave", kvalifikovanePrijave);
+		exe.setVariable("odbijenePrijave", odbijenePrijave);
+		
+		if (odbijenePrijave != null)
+			System.out.println("Odbijenih prijava ima: " + odbijenePrijave.size());
+		
+		System.out.println("SETOVAO SVE VAR U KvalifikacijaCountService");
 	}
 }
