@@ -409,7 +409,7 @@ Evo vam zapisnik...]]></activiti:string>
         <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${ponudjaci}"></multiInstanceLoopCharacteristics>
       </serviceTask>
       <sequenceFlow id="flow77" sourceRef="subprocess3" targetRef="mailtask4"></sequenceFlow>
-      <serviceTask id="servicetask5" name="Obrada i ocenivanje ponuda"></serviceTask>
+      <serviceTask id="servicetask5" name="Obrada i ocenivanje ponuda" activiti:expression="#{PonudaService.todoLater()}"></serviceTask>
       <sequenceFlow id="flow78" sourceRef="mailtask4" targetRef="servicetask5"></sequenceFlow>
       <userTask id="usertask14" name="Odbacivanje ponuda koje ne ispunjavaju uslove"></userTask>
       <sequenceFlow id="flow79" sourceRef="servicetask5" targetRef="usertask14"></sequenceFlow>
