@@ -3,7 +3,7 @@
   <signal id="signalPozivZaPonude" name="signalPozivZaPonude" activiti:scope="global"></signal>
   <signal id="signalPonuda" name="signalPonuda" activiti:scope="global"></signal>
   <process id="slanjePonudeProces" name="My process" isExecutable="true">
-    <serviceTask id="servicetask1" name="Odobreni ponudjaci" activiti:expression="#{PonudjaciService.getQualified()}" activiti:resultVariableName="qualifiedList"></serviceTask>
+    <serviceTask id="servicetask1" name="Odobreni ponudjaci" activiti:expression="#{PonudjacService.getQualified()}" activiti:resultVariableName="qualifiedList"></serviceTask>
     <userTask id="usertask1" name="Aplikacija ponude" activiti:candidateUsers="${qualifiedList}" activiti:formKey="executeTask">
       <extensionElements>
         <activiti:formProperty id="nazivNarucioca" name="Naziv narucioca" type="string" variable="nazivNarucioca" default="${nazivNarucioca}" writable="false" required="true"></activiti:formProperty>
@@ -80,7 +80,7 @@
         <omgdi:waypoint x="322.0" y="300.0"></omgdi:waypoint>
         <omgdi:waypoint x="322.0" y="350.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="226.0" y="329.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="82.0" x="226.0" y="329.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">

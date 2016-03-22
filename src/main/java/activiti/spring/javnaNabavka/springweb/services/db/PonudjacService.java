@@ -104,6 +104,8 @@ public class PonudjacService {
 		pList = tmpList; 
 		tmpList.clear();
 
+		System.out.println("Vratio kvalifikovane ponudjace! Ukupno ih ima: " + pList.size());
+		
 		return pList;
 	}
 
