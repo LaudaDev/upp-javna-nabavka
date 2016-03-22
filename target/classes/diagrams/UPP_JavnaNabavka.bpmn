@@ -253,19 +253,15 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vrstaPostupka == 'restriktivniPostupak'}]]></conditionExpression>
       </sequenceFlow>
       <exclusiveGateway id="exclusivegateway7" name="Exclusive Gateway"></exclusiveGateway>
-      <userTask id="usertask5" name="Kriterijum ocenivanja u otvorenom postupku"></userTask>
-      <sequenceFlow id="flow40" name="Otvoreni postupak" sourceRef="exclusivegateway4" targetRef="usertask5">
+      <userTask id="usertask5" name="Kriterijum ocenivanja u otvorenom postupku" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask"></userTask>
+      <sequenceFlow id="flow40" name="Otvoreni postupak" sourceRef="exclusivegateway4" targetRef="servicetask10">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vrstaPostupka != 'restriktivniPostupak'}]]></conditionExpression>
       </sequenceFlow>
       <endEvent id="endevent3" name="End"></endEvent>
       <sequenceFlow id="flow42" name="&lt; 3 kvalifikacije" sourceRef="exclusivegateway7" targetRef="endevent3">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija < '3'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="usertask6" name="Kriterijum ocenivanja u restriktivnom postupku" activiti:candidateUsers="${komisijaLista}">
-        <extensionElements>
-          <activiti:formProperty id="meh" name="meh" type="string" variable="meh" default="meh"></activiti:formProperty>
-        </extensionElements>
-      </userTask>
+      <userTask id="usertask6" name="Kriterijum ocenivanja u restriktivnom postupku" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask"></userTask>
       <sequenceFlow id="flow43" name="&gt;= 3 kvalifikacije" sourceRef="exclusivegateway7" targetRef="usertask6">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija > 2}]]></conditionExpression>
       </sequenceFlow>
@@ -274,20 +270,20 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       <sequenceFlow id="flow45" sourceRef="usertask6" targetRef="exclusivegateway8"></sequenceFlow>
       <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
       <sequenceFlow id="flow46" sourceRef="exclusivegateway8" targetRef="parallelgateway1"></sequenceFlow>
-      <userTask id="usertask7" name="Poziv za podnosenje ponuda"></userTask>
+      <userTask id="usertask7" name="Poziv za podnosenje ponuda" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask"></userTask>
       <sequenceFlow id="flow47" sourceRef="parallelgateway1" targetRef="usertask7"></sequenceFlow>
-      <userTask id="usertask8" name="Formiranje konkursne dokumentacije"></userTask>
+      <userTask id="usertask8" name="Formiranje konkursne dokumentacije" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask"></userTask>
       <sequenceFlow id="flow48" sourceRef="parallelgateway1" targetRef="usertask8"></sequenceFlow>
       <parallelGateway id="parallelgateway2" name="Parallel Gateway"></parallelGateway>
       <sequenceFlow id="flow49" sourceRef="usertask7" targetRef="parallelgateway2"></sequenceFlow>
       <sequenceFlow id="flow50" sourceRef="usertask8" targetRef="parallelgateway2"></sequenceFlow>
       <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow51" sourceRef="parallelgateway2" targetRef="exclusivegateway9"></sequenceFlow>
-      <userTask id="usertask9" name="Poziv za podnosenje ponuda"></userTask>
+      <userTask id="usertask9" name="Poziv za podnosenje ponuda" activiti:candidateUsers="${komisijaLista}"></userTask>
       <sequenceFlow id="flow52" sourceRef="exclusivegateway9" targetRef="usertask9">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vrstaPostupka != 'nabavkaMaleVrednosti'}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="usertask10" name="Poziv poznatim ponudjacima">
+      <userTask id="usertask10" name="Poziv poznatim ponudjacima" activiti:candidateUsers="${komisijaLista}">
         <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${poznatiPonudjaci}"></multiInstanceLoopCharacteristics>
       </userTask>
       <sequenceFlow id="flow53" sourceRef="exclusivegateway9" targetRef="usertask10">
@@ -297,11 +293,11 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       <sequenceFlow id="flow54" sourceRef="usertask10" targetRef="exclusivegateway10"></sequenceFlow>
       <sequenceFlow id="flow55" sourceRef="usertask9" targetRef="exclusivegateway10"></sequenceFlow>
       <scriptTask id="scripttask4" name="Init Timer" scriptFormat="javascript" activiti:autoStoreVariables="false">
-        <script>execution.setVariable("timerExpired", "false");</script>
+        <script>execution.setVariable("timerExpiredOffer", "false");</script>
       </scriptTask>
       <sequenceFlow id="flow56" sourceRef="exclusivegateway10" targetRef="scripttask4"></sequenceFlow>
       <intermediateThrowEvent id="signalintermediatethrowevent1" name="SignalThrowEvent">
-        <signalEventDefinition signalRef="signalPozivZaPrijave"></signalEventDefinition>
+        <signalEventDefinition signalRef="signalPozivZaPonude"></signalEventDefinition>
       </intermediateThrowEvent>
       <sequenceFlow id="flow57" sourceRef="scripttask4" targetRef="signalintermediatethrowevent1"></sequenceFlow>
       <eventBasedGateway id="eventgateway2" name="Event Gateway"></eventBasedGateway>
@@ -313,15 +309,15 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       </intermediateCatchEvent>
       <sequenceFlow id="flow59" sourceRef="eventgateway2" targetRef="timerintermediatecatchevent2"></sequenceFlow>
       <scriptTask id="scripttask5" name="Update Timer" scriptFormat="javascript" activiti:autoStoreVariables="false">
-        <script>execution.setVariable("timerExpired", "true");</script>
+        <script>execution.setVariable("timerExpiredOffer", "true");</script>
       </scriptTask>
       <exclusiveGateway id="exclusivegateway11" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow61" sourceRef="scripttask5" targetRef="exclusivegateway11"></sequenceFlow>
       <intermediateCatchEvent id="signalintermediatecatchevent2" name="SignalCatchEvent">
-        <signalEventDefinition signalRef="signalPozivZaPrijave"></signalEventDefinition>
+        <signalEventDefinition signalRef="signalPonuda"></signalEventDefinition>
       </intermediateCatchEvent>
       <sequenceFlow id="flow62" sourceRef="eventgateway2" targetRef="signalintermediatecatchevent2"></sequenceFlow>
-      <serviceTask id="servicetask4" name="Prijem i obrada ponuda" activiti:class="activiti.spring.javnaNabavka.springweb.services.SharedService"></serviceTask>
+      <serviceTask id="servicetask4" name="Prijem ponuda" activiti:expression="#{SharedService.receiveEntry()}"></serviceTask>
       <sequenceFlow id="flow63" sourceRef="signalintermediatecatchevent2" targetRef="servicetask4"></sequenceFlow>
       <serviceTask id="mailtask3" name="Potvrda prijema ponude" activiti:type="mail">
         <extensionElements>
@@ -346,7 +342,7 @@ Vasa ponuda je primljena]]></activiti:string>
       <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow68" sourceRef="exclusivegateway11" targetRef="exclusivegateway12"></sequenceFlow>
       <sequenceFlow id="flow69" name="Slanje ponuda aktuelno" sourceRef="exclusivegateway12" targetRef="signalintermediatecatchevent2">
-        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpired == 'false'}]]></conditionExpression>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == 'false'}]]></conditionExpression>
       </sequenceFlow>
       <subProcess id="subprocess3" name="Obrada Ponuda">
         <startEvent id="startevent4" name="Start"></startEvent>
@@ -367,7 +363,7 @@ Vasa ponuda je primljena]]></activiti:string>
         <sequenceFlow id="flow75" sourceRef="usertask13" targetRef="endevent4"></sequenceFlow>
       </subProcess>
       <sequenceFlow id="flow76" name="Istekao tajmer za slanje ponuda" sourceRef="exclusivegateway12" targetRef="subprocess3">
-        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpired == 'true'}]]></conditionExpression>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == 'true'}]]></conditionExpression>
       </sequenceFlow>
       <serviceTask id="mailtask4" name="Slanje zapisnika ponudjacima" activiti:type="mail">
         <extensionElements>
@@ -404,6 +400,10 @@ Evo vam zapisnik...]]></activiti:string>
         <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="ponudjaci" activiti:elementVariable="pn"></multiInstanceLoopCharacteristics>
       </serviceTask>
       <sequenceFlow id="flow96" sourceRef="servicetask9" targetRef="exclusivegateway4"></sequenceFlow>
+      <serviceTask id="servicetask10" name="Validni ponudjaci u otvorenom postupku" activiti:expression="#{PonudjacService.setOfferFlag(offerUser.id)}" activiti:resultVariableName="offerUsers">
+        <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="offerUsers" activiti:elementVariable="offerUser"></multiInstanceLoopCharacteristics>
+      </serviceTask>
+      <sequenceFlow id="flow101" sourceRef="servicetask10" targetRef="usertask5"></sequenceFlow>
     </subProcess>
     <sequenceFlow id="flow82" sourceRef="odlukaOPokretanjuPostupka" targetRef="subprocess1"></sequenceFlow>
   </process>
@@ -622,6 +622,9 @@ Evo vam zapisnik...]]></activiti:string>
       <bpmndi:BPMNShape bpmnElement="servicetask9" id="BPMNShape_servicetask9">
         <omgdc:Bounds height="60.0" width="105.0" x="1240.0" y="56.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask10" id="BPMNShape_servicetask10">
+        <omgdc:Bounds height="71.0" width="105.0" x="1463.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="76.0" y="470.0"></omgdi:waypoint>
         <omgdi:waypoint x="141.0" y="470.0"></omgdi:waypoint>
@@ -791,10 +794,10 @@ Evo vam zapisnik...]]></activiti:string>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
-        <omgdi:waypoint x="1390.0" y="88.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1450.0" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1370.0" y="108.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1515.0" y="170.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="1364.0" y="56.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="1344.0" y="149.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
@@ -981,6 +984,10 @@ Evo vam zapisnik...]]></activiti:string>
       <bpmndi:BPMNEdge bpmnElement="flow96" id="BPMNEdge_flow96">
         <omgdi:waypoint x="1345.0" y="86.0"></omgdi:waypoint>
         <omgdi:waypoint x="1350.0" y="88.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow101" id="BPMNEdge_flow101">
+        <omgdi:waypoint x="1515.0" y="170.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1515.0" y="129.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
         <omgdi:waypoint x="246.0" y="470.0"></omgdi:waypoint>
