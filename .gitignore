@@ -1,12 +1,4 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
+target/*
 
 .metadata
 bin/
@@ -15,7 +7,6 @@ tmp/
 *.bak
 *.swp
 *~.nib
-local.properties
 .settings/
 .loadpath
 .recommenders
@@ -25,4 +16,4 @@ local.properties
 .project
 
 # Activiti designer files
-.bpmn/
+.bpmn/*
