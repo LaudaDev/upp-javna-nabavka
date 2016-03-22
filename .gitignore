@@ -17,3 +17,4 @@ tmp/
 
 # Activiti designer files
 .bpmn/*
+/target/

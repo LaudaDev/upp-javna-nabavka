@@ -10,6 +10,8 @@ version="2.0">
 	<class>activiti.spring.javnaNabavka.enitity.Loan</class>
 	<class>activiti.spring.javnaNabavka.enitity.Ponudjac</class>
 	<class>activiti.spring.javnaNabavka.enitity.Prijava</class>
+	<class>activiti.spring.javnaNabavka.enitity.Ponuda</class>
+	<class>activiti.spring.javnaNabavka.enitity.Registar</class>
 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	<properties>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
