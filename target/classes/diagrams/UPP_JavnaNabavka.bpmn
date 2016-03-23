@@ -312,6 +312,9 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       </scriptTask>
       <sequenceFlow id="flow56" sourceRef="exclusivegateway10" targetRef="scripttask4"></sequenceFlow>
       <intermediateThrowEvent id="signalintermediatethrowevent1" name="SignalThrowEvent">
+        <extensionElements>
+          <activiti:executionListener event="start" class="activiti.spring.javnaNabavka.util.SharedListener"></activiti:executionListener>
+        </extensionElements>
         <signalEventDefinition signalRef="signalPozivZaPonude"></signalEventDefinition>
       </intermediateThrowEvent>
       <sequenceFlow id="flow57" sourceRef="scripttask4" targetRef="signalintermediatethrowevent1"></sequenceFlow>
@@ -356,7 +359,7 @@ Vasa ponuda je primljena]]></activiti:string>
       <sequenceFlow id="flow66" sourceRef="mailtask3" targetRef="exclusivegateway11"></sequenceFlow>
       <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow68" sourceRef="exclusivegateway11" targetRef="exclusivegateway12"></sequenceFlow>
-      <sequenceFlow id="flow69" name="Slanje ponuda aktuelno" sourceRef="exclusivegateway12" targetRef="signalintermediatecatchevent2">
+      <sequenceFlow id="flow69" name="Slanje ponuda aktuelno" sourceRef="exclusivegateway12" targetRef="signalintermediatethrowevent1">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == 'false'}]]></conditionExpression>
       </sequenceFlow>
       <subProcess id="subprocess3" name="Obrada Ponuda">
@@ -384,7 +387,15 @@ Vasa ponuda je primljena]]></activiti:string>
         <exclusiveGateway id="exclusivegateway13" name="Exclusive Gateway"></exclusiveGateway>
         <sequenceFlow id="flow72" sourceRef="usertask12" targetRef="exclusivegateway13"></sequenceFlow>
         <endEvent id="endevent4" name="End"></endEvent>
-        <userTask id="usertask13" name="Dopuna ponude"></userTask>
+        <userTask id="usertask13" name="Dopuna ponude" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask">
+          <extensionElements>
+            <activiti:formProperty id="nazivNarucioca" name="Naziv narucioca" type="string" variable="nazivNarucioca" default="${ponuda.nazivNarucioca}" required="true"></activiti:formProperty>
+            <activiti:formProperty id="adresaNarucioca" name="Adresa narucioca" type="string" variable="adresaNarucioca" default="${ponuda.adresaNarucioca}" required="true"></activiti:formProperty>
+            <activiti:formProperty id="nazivPonudjaca" name="Naziv ponudjaca" type="string" variable="nazivPonudjaca" default="${ponuda.nazivPonudjaca}" required="true"></activiti:formProperty>
+            <activiti:formProperty id="procenjenaVrednost" name="Procenjena vrednost" type="double" variable="procenjenaVrednost" default="${ponuda.procenjenaVrednost}" required="true"></activiti:formProperty>
+            <activiti:formProperty id="predlozenaCena" name="Prelozena cena" type="double" variable="predlozenaCena" default="${ponuda.predlozenaCena}" required="true"></activiti:formProperty>
+          </extensionElements>
+        </userTask>
         <sequenceFlow id="flow74" sourceRef="exclusivegateway13" targetRef="usertask13">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${potrebnaDopunaPonude == 'da'}]]></conditionExpression>
         </sequenceFlow>
@@ -392,7 +403,7 @@ Vasa ponuda je primljena]]></activiti:string>
         <sequenceFlow id="flow103" sourceRef="exclusivegateway13" targetRef="exclusivegateway16">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${potrebnaDopunaPonude == 'ne'}]]></conditionExpression>
         </sequenceFlow>
-        <userTask id="usertask16" name="Unosenje koeficijenta (ekonomski)"></userTask>
+        <userTask id="usertask16" name="Unosenje koeficijenta (ekonomski)" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask"></userTask>
         <sequenceFlow id="flow104" sourceRef="exclusivegateway16" targetRef="usertask16">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${kriterijumOcenjivanja=='ekonomski'}]]></conditionExpression>
         </sequenceFlow>
@@ -403,6 +414,9 @@ Vasa ponuda je primljena]]></activiti:string>
         <sequenceFlow id="flow107" sourceRef="usertask16" targetRef="endevent4"></sequenceFlow>
       </subProcess>
       <sequenceFlow id="flow76" name="Istekao tajmer za slanje ponuda" sourceRef="exclusivegateway12" targetRef="servicetask11">
+        <extensionElements>
+          <activiti:executionListener event="take" expression="#{SharedService.timerExpired()}"></activiti:executionListener>
+        </extensionElements>
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == 'true'}]]></conditionExpression>
       </sequenceFlow>
       <serviceTask id="mailtask4" name="Slanje zapisnika ponudjacima" activiti:type="mail">
@@ -458,7 +472,7 @@ Evo vam zapisnik...]]></activiti:string>
         <omgdc:Bounds height="61.0" width="105.0" x="141.0" y="440.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="subprocess1" id="BPMNShape_subprocess1">
-        <omgdc:Bounds height="871.0" width="3091.0" x="290.0" y="10.0"></omgdc:Bounds>
+        <omgdc:Bounds height="931.0" width="3091.0" x="290.0" y="10.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent2" id="BPMNShape_startevent2">
         <omgdc:Bounds height="35.0" width="35.0" x="310.0" y="70.0"></omgdc:Bounds>
@@ -623,7 +637,7 @@ Evo vam zapisnik...]]></activiti:string>
         <omgdc:Bounds height="58.0" width="105.0" x="2835.0" y="150.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway12" id="BPMNShape_exclusivegateway12">
-        <omgdc:Bounds height="40.0" width="40.0" x="2600.0" y="240.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="2507.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="subprocess3" id="BPMNShape_subprocess3">
         <omgdc:Bounds height="261.0" width="751.0" x="1740.0" y="372.0"></omgdc:Bounds>
@@ -959,13 +973,13 @@ Evo vam zapisnik...]]></activiti:string>
         <omgdi:waypoint x="2998.0" y="96.0"></omgdi:waypoint>
         <omgdi:waypoint x="3050.0" y="96.0"></omgdi:waypoint>
         <omgdi:waypoint x="3050.0" y="259.0"></omgdi:waypoint>
-        <omgdi:waypoint x="2640.0" y="260.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2547.0" y="260.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow69" id="BPMNEdge_flow69">
-        <omgdi:waypoint x="2620.0" y="240.0"></omgdi:waypoint>
-        <omgdi:waypoint x="2620.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2527.0" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2527.0" y="112.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="2524.0" y="177.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="2431.0" y="177.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow70" id="BPMNEdge_flow70">
@@ -1008,10 +1022,10 @@ Evo vam zapisnik...]]></activiti:string>
         <omgdi:waypoint x="2440.0" y="478.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow76" id="BPMNEdge_flow76">
-        <omgdi:waypoint x="2600.0" y="260.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2507.0" y="260.0"></omgdi:waypoint>
         <omgdi:waypoint x="2361.0" y="260.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="2412.0" y="259.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="2319.0" y="259.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow77" id="BPMNEdge_flow77">
@@ -1060,7 +1074,7 @@ Evo vam zapisnik...]]></activiti:string>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
         <omgdi:waypoint x="246.0" y="470.0"></omgdi:waypoint>
-        <omgdi:waypoint x="290.0" y="445.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="475.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

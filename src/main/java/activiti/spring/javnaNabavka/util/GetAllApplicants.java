@@ -7,7 +7,9 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 import org.activiti.engine.identity.User;
+import org.springframework.stereotype.Service;
 
+@Service("GetAllApplicants")
 public class GetAllApplicants implements TaskListener {
 
 	/**

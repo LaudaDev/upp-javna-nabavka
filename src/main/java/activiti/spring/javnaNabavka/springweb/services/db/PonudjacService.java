@@ -93,16 +93,13 @@ public class PonudjacService {
 
 	public List<String> getQualified() {
 		List<String> pList = new ArrayList<String>();
-		List<String> tmpList = new ArrayList<String>();
 
-		List<?> result = (List<?>) entityManager.createQuery("SELECT id FROM Ponudjac WHERE canSendOffer = 1 AND sentOffer = 0").getResultList();
+		List<?> result = (List<?>) entityManager.createQuery("SELECT p.id FROM Ponudjac p WHERE p.canSendOffer = 1 AND p.sentOffer = 0").getResultList();
 		for (Object object : result) {
 			if (object instanceof String) {
-				tmpList.add((String) object);
+				pList.add((String) object);
 			}
 		}
-		pList = tmpList; 
-		tmpList.clear();
 
 		System.out.println("Vratio kvalifikovane ponudjace! Ukupno ih ima: " + pList.size());
 		
@@ -175,6 +172,8 @@ public class PonudjacService {
 				offers.add((Ponuda) object);
 			}
 		}
+		
+		System.out.println("Poslate ponude uspesno prikupljene! Ukupno ih ima: " + offers.size());
 		
 		return offers;
 	}

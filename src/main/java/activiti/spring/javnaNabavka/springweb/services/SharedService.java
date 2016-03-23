@@ -29,4 +29,8 @@ public class SharedService {
 			System.out.println("Ukupno runtime: " + ex.getId());
 	}
 	
+	public void timerExpired() {
+		System.out.println("Timer expired!");
+	}
+	
 }
