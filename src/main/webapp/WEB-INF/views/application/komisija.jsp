@@ -1,79 +1,48 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-
-
-<title>Javna Nabavka :: Komisija</title>
-
-<link href="<c:url value="/resources/stylesheets/styles.css"/>" rel="stylesheet" />
-</head>
-<body>
-	<center>
-	<h2>Javna Nabavka - Task ${task.name}</h2>
+<%@ include file="./header.jsp" %>
+<!-- Page Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h1>Javna Nabavka - Proces ${task.name}</h1>
 			<c:if test="${fn:length(formProperties) > 0}">
+				<div class="form-group">
 				<form name='f' class="form-horizontal" action="<c:url value='/application/execute/${task.id}' />" method="POST">
+				<c:forEach var="formProperty" items="${formProperties}">
+					<c:if test="${formProperty.readable == true}">
+						<label for="${formProperty.name}">${formProperty.name}</label>
 
-				<fieldset>
-
-						<!--
-Treba jos dodati validaciju (da li su uneta required obelezja,
-da li su uneta slova iako je tip long - ili obezbediti da se to onemoguci
-Pokriti unos datuma
-Pokusati smestiti u poseban jsp fajl forme, pa ukljuciti pomocu include
- -->
-			</c:if>
-
-			<c:forEach var="formProperty" items="${formProperties}">
-				<c:if test="${formProperty.readable == true}">
-						<label for="textinput">${formProperty.name}</label>
-						<c:if
-							test="${formProperty.type.name.equals('string') || formProperty.type.name.equals('long') || formProperty.type.name.equals('double')
-	||  formProperty.type.name.equals('date') }">
-								<input type="text"
-									<c:if test="${formProperty.writable==true}" > name="${formProperty.id}"</c:if>
-									<c:if test="${formProperty.writable==false}"> disabled </c:if>
-									value="${formProperty.value}" />
+						<c:if test="${formProperty.type.name.equals('string') || formProperty.type.name.equals('date')}">
+						<input type="text" class="form-control" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
+							<c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
 						</c:if>
+
+						<c:if test="${formProperty.type.name.equals('long') || formProperty.type.name.equals('double')}">
+						<input type="text" class="form-control" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
+							<c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
+						</c:if>
+
 						<c:if test="${formProperty.type.name.equals('boolean')}">
-								<div class="radio">
-									<input type="checkbox"
-										<c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
-										<c:if test="${formProperty.writable==false}"> disabled </c:if>
-										<c:if test="${formProperty.value==true}">checked </c:if> />
-								</div>
+							<input type="checkbox" class="checkbox" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
+							 <c:if test="${formProperty.writable==false}"> disabled </c:if> <c:if test="${formProperty.value==true}">checked </c:if>/>
 						</c:if>
+
 						<c:if test="${formProperty.type.name.equals('enum')}">
-								<select class="form-control"
-									<c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
-									<c:if test="${formProperty.writable==false}"> disabled </c:if>>
+							<select class="form-control" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
+							<c:if test="${formProperty.writable==false}"> disabled </c:if> >
 
-									<c:forEach var="key"
-										items="${formProperty.getType().getInformation('values').keySet()}">
-										<option value="${key}">${formProperty.getType().getInformation('values').get(key)}</option>
-									</c:forEach>
-								</select>
-
-						</c:if>
-					<c:if test="${formProperty.readable == false}">
-						<input type="hidden" name="${formProperty.id}"
-							value="${formProperty.value}" />
+						<c:forEach var="key" items="${formProperty.getType().getInformation('values').keySet()}">
+							<option value="${key}">${formProperty.getType().getInformation('values').get(key)}</option>
+						</c:forEach>
+						</select>
 					</c:if>
-					<br />
-				</c:if>
-			</c:forEach>
-				<label >Sluzbenik:</label>
-					<select id="sluzbenici" name="sluzbenici">
+
+					</c:if>
+			<c:if test="${formProperty.readable == false}">
+				<input type="hidden"  name="${formProperty.id}" value="${formProperty.value}" />
+			</c:if>
+		</c:forEach>
+				<label for="sluzbenik">Sluzbenik:</label>
+					<select class="form-control" id="sluzbenici" name="sluzbenici">
 						<c:forEach var="sluzbenik" items="${narucilacList}">
 							<option value="${sluzbenik.id}">${sluzbenik.firstName} ${sluzbenik.lastName}</option>
 						</c:forEach>
@@ -87,7 +56,7 @@ Pokusati smestiti u poseban jsp fajl forme, pa ukljuciti pomocu include
 					</select>
 			<br />
 				<label>Strano lice:</label>
-					<select id="stranaLica" name="stranaLica">
+					<select class="form-control" id="stranaLica" name="stranaLica">
 						<c:forEach var="stranoLice" items="${stranaLicaList}">
 							<option value="${stranoLice.id}">${stranoLice.firstName} ${stranoLice.lastName}</option>
 						</c:forEach>
@@ -98,6 +67,9 @@ Pokusati smestiti u poseban jsp fajl forme, pa ukljuciti pomocu include
 			</div>
 			</fieldset>
 			</form>
-		</center>
-</body>
-</html>
+		</div>
+	</c:if>
+</div>
+</div>
+</div>
+<jsp:include page="./footer.jsp" />

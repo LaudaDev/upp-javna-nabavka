@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.FormService;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -12,6 +13,8 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,9 @@ public class ApplicationController {
 	private RuntimeService runtimeService;
 	
 	@Autowired
+	private HistoryService historyService;
+	
+	@Autowired
 	private IdentityService iService;
 
 	@RequestMapping(value="/tasksList", method = RequestMethod.GET)
@@ -61,6 +67,9 @@ public class ApplicationController {
 
 		List<Task> candidateTasks = taskService.createTaskQuery().taskCandidateUser(id).list();
 		model.addAttribute("candidateTasks", candidateTasks);
+		
+		historyService.createHistoricDetailQuery();
+	
 
 		return "application/tasksList";
 
@@ -88,6 +97,7 @@ public class ApplicationController {
 		}
 
 		model.addAttribute("message", message);
+		model.addAttribute("username", userId);
 
 		return showUsersTasks(model);
 
@@ -108,6 +118,7 @@ public class ApplicationController {
 		System.out.println(tmpMsg);
 		String msg;
 		String uId = user.getUsername();
+		model.addAttribute("username", user.getUsername());
 		
 		if (!canExecute(taskId, uId)) {
 			msg = "Ne možete izvršiti zadatak!";
@@ -183,6 +194,7 @@ public class ApplicationController {
 			message = "Ne možete izvršiti zadatak";
 
 		model.addAttribute("message", message);
+		model.addAttribute("username", userId);
 		return showUsersTasks(model);
 
 	}
@@ -237,6 +249,7 @@ public class ApplicationController {
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
 		boolean canInitiate = false;
+
 		User user;
 		try{
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -249,7 +262,6 @@ public class ApplicationController {
 		for (org.activiti.engine.identity.User u: usr) {
 			if (u.getId().equals(user.getUsername())) {
 				canInitiate = true;
-				break;
 			}
 		}
 			
@@ -258,6 +270,37 @@ public class ApplicationController {
 		model.addAttribute("canInitiate", canInitiate);
 		return "application/welcome";
  
+	}
+	
+	@RequestMapping(value="/stats", method = RequestMethod.GET)
+	public String printStats(ModelMap model) {
+		User user;
+		try{
+			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		catch(Exception ex){
+			return "redirect:/login";
+		}
+
+		List<String> finishedInstances = new ArrayList<String>();
+		List<String> unfinishedInstances = new ArrayList<String>();
+		List<String> taskOnWait = new ArrayList<String>();
+		
+		for (HistoricActivityInstance hai: historyService.createHistoricActivityInstanceQuery().finished().list()) 
+				finishedInstances.add(hai.getId() + " - " + hai.getActivityName() + " - " + hai.getEndTime().toString());
+		
+		for (HistoricActivityInstance hai: historyService.createHistoricActivityInstanceQuery().unfinished().list()) 
+				unfinishedInstances.add(hai.getId() + " - " + hai.getActivityName() + " - " + hai.getStartTime().toString());
+		
+		for (HistoricTaskInstance hti: historyService.createHistoricTaskInstanceQuery().orderByTaskAssignee().asc().list()) 
+			taskOnWait.add(hti.getId() + " - " + hti.getName() + " - " + hti.getAssignee());
+				
+		model.addAttribute("finishedInstances", finishedInstances);
+		model.addAttribute("unfinishedInstances", unfinishedInstances);
+		model.addAttribute("taskOnWait", taskOnWait);
+		model.addAttribute("username", user.getUsername());
+		
+		return "application/table";
 	}
 
 

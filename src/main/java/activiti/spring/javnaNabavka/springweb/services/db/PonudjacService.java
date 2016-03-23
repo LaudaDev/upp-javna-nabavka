@@ -238,4 +238,36 @@ public class PonudjacService {
 		
 		return ponudjac;
 	}
+	
+	public void setFlagSmallValue(String id) {
+		List<Registar> rList = new ArrayList<Registar>();
+		List<Ponudjac> pList = new ArrayList<Ponudjac>();
+		
+		List<?> result = (List<?>) entityManager.createQuery("SELECT r FROM Registar r").getResultList();
+		for (Object object : result) {
+			if (object instanceof Registar) {
+				rList.add((Registar)object);
+			}
+		}
+		
+		List<?> result1 = (List<?>) entityManager.createQuery("SELECT p FROM Ponudjac p").getResultList();
+		for (Object object : result1) {
+			if (object instanceof Ponudjac) {
+				pList.add((Ponudjac)object);
+			}
+		}
+		
+		for (Ponudjac p: pList) {
+			Ponudjac pn = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + p.getId() + "'").getSingleResult();
+			pn.setCanSendOffer(false);
+			entityManager.merge(pn);
+		}
+		
+		for (Registar r: rList) {
+			Ponudjac p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + r.getClanoviRegistra() + "'").getSingleResult();
+			p.setCanSendOffer(true);
+			entityManager.merge(p);
+		}
+	
+	}
 }

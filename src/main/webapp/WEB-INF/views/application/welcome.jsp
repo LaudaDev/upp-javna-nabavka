@@ -1,32 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-<title>Welcome</title>
-
-
-
-<link href="<c:url value="/resources/stylesheets/styles.css"/>"
-	rel="stylesheet" />
-
-
-</head>
-
-<body>
-	<h3>Dobrodošli ${username}!</h3>
-		
-	<div class="message">${message}</div>		
-		
-	
-	<a href="./tasksList">Pregled zadataka</a> <br/>
-	<c:if test="${canInitiate == true}"><a href="./newInstance">Pokretanje nove instance</a> <br/></c:if>
-	
-	<br/>
-	<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
-	
-</body>
-</html>
+<jsp:include page="./header.jsp" />
+	<!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>${message}</h1>
+                <c:if test="${canInitiate == true}"><p class="lead"><a href="./newInstance">Pokretanje nove instance</a></p></c:if>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+<jsp:include page="./footer.jsp" />
