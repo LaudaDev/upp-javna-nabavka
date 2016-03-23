@@ -67,6 +67,7 @@ public class ApplicationController {
 
 		List<Task> candidateTasks = taskService.createTaskQuery().taskCandidateUser(id).list();
 		model.addAttribute("candidateTasks", candidateTasks);
+		model.addAttribute("username", id);
 
 		return "application/tasksList";
 

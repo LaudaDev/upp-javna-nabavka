@@ -63,7 +63,7 @@
 					</select>
 			<br />
  			<div class="submit">
-				<input type="submit" value="Potvrda">
+				<input type="submit" class="btn btn-default" value="Potvrda">
 			</div>
 			</fieldset>
 			</form>

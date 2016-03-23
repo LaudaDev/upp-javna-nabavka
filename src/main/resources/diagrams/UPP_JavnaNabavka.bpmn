@@ -126,12 +126,12 @@
           <signalEventDefinition signalRef="signalPrijava"></signalEventDefinition>
         </intermediateCatchEvent>
         <sequenceFlow id="flow27" sourceRef="eventgateway1" targetRef="signalintermediatecatchevent1"></sequenceFlow>
-        <serviceTask id="servicetask3" name="Prijem i obrada prijava" activiti:expression="#{SharedService.receiveEntry()}"></serviceTask>
+        <serviceTask id="servicetask3" name="Prijem i obrada prijava" activiti:expression="#{SharedService.getEmail(&quot;prijava&quot;)}" activiti:resultVariableName="email"></serviceTask>
         <sequenceFlow id="flow28" sourceRef="signalintermediatecatchevent1" targetRef="servicetask3"></sequenceFlow>
         <serviceTask id="mailtask1" name="Potvrda prijema prijave" activiti:type="mail">
           <extensionElements>
             <activiti:field name="to">
-              <activiti:string><![CDATA[lauda@localhost]]></activiti:string>
+              <activiti:expression><![CDATA[${mail}]]></activiti:expression>
             </activiti:field>
             <activiti:field name="from">
               <activiti:string><![CDATA[activiti@localhost]]></activiti:string>
@@ -140,10 +140,12 @@
               <activiti:string><![CDATA[Prijava uspesno primljena]]></activiti:string>
             </activiti:field>
             <activiti:field name="text">
-              <activiti:string><![CDATA[Pozdrav,
-Prijava je uspesno primljena]]></activiti:string>
+              <activiti:string><![CDATA[Postovani,
+
+Vasa prijava je uspesno primljena.]]></activiti:string>
             </activiti:field>
           </extensionElements>
+          <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="email" activiti:elementVariable="mail"></multiInstanceLoopCharacteristics>
         </serviceTask>
         <sequenceFlow id="flow29" sourceRef="servicetask3" targetRef="mailtask1"></sequenceFlow>
         <sequenceFlow id="flow30" sourceRef="mailtask1" targetRef="exclusivegateway5"></sequenceFlow>
@@ -210,7 +212,7 @@ Vasa kvalifikacija za javnu nabavku je odobrena!]]></activiti:expression>
         <sequenceFlow id="flow92" sourceRef="servicetask7" targetRef="exclusivegateway14"></sequenceFlow>
         <endEvent id="endevent6" name="End"></endEvent>
         <sequenceFlow id="flow93" name="Nema prijavljenih" sourceRef="exclusivegateway14" targetRef="endevent6">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${apliciraniPonudjaci == 'null' || apliciraniPonudjaci.size() == '0'}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${apliciraniPonudjaci == 'null' || apliciraniPonudjaci.size() == 0}]]></conditionExpression>
         </sequenceFlow>
         <sequenceFlow id="flow94" sourceRef="exclusivegateway14" targetRef="usertask15">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${apliciraniPonudjaci != 'null' || apliciraniPonudjaci.size() != '0'}]]></conditionExpression>
@@ -264,7 +266,7 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       </sequenceFlow>
       <endEvent id="endevent3" name="End"></endEvent>
       <sequenceFlow id="flow42" name="&lt; 3 kvalifikacije" sourceRef="exclusivegateway7" targetRef="endevent3">
-        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija < '3'}]]></conditionExpression>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${brojPotvrdjenihKvalifikacija < 3 || apliciraniPonudjaci == 'null' || apliciraniPonudjaci.size() == 0}]]></conditionExpression>
       </sequenceFlow>
       <userTask id="usertask6" name="Kriterijum ocenivanja u restriktivnom postupku" activiti:candidateUsers="${komisijaLista}" activiti:formKey="executeTask">
         <extensionElements>
@@ -325,15 +327,15 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
         <signalEventDefinition signalRef="signalPonuda"></signalEventDefinition>
       </intermediateCatchEvent>
       <sequenceFlow id="flow62" sourceRef="eventgateway2" targetRef="signalintermediatecatchevent2"></sequenceFlow>
-      <serviceTask id="servicetask4" name="Prijem ponuda" activiti:expression="#{SharedService.receiveEntry()}"></serviceTask>
+      <serviceTask id="servicetask4" name="Prijem ponuda" activiti:expression="#{SharedService.getEmail(&quot;ponuda&quot;)}" activiti:resultVariableName="email"></serviceTask>
       <sequenceFlow id="flow63" sourceRef="signalintermediatecatchevent2" targetRef="servicetask4"></sequenceFlow>
       <serviceTask id="mailtask3" name="Potvrda prijema ponude" activiti:type="mail">
         <extensionElements>
           <activiti:field name="to">
-            <activiti:string><![CDATA[goran@localhost]]></activiti:string>
+            <activiti:expression><![CDATA[${mail}]]></activiti:expression>
           </activiti:field>
           <activiti:field name="from">
-            <activiti:string><![CDATA[lauda@localhost]]></activiti:string>
+            <activiti:string><![CDATA[activiti@localhost]]></activiti:string>
           </activiti:field>
           <activiti:field name="subject">
             <activiti:string><![CDATA[Potvrda prijema ponude]]></activiti:string>
@@ -341,9 +343,10 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
           <activiti:field name="text">
             <activiti:string><![CDATA[Postovani,
 
-Vasa ponuda je primljena]]></activiti:string>
+Vasa ponuda je uspesno primljena. Uskoro cete biti obavesteni da li je prihvacena ili ne.]]></activiti:string>
           </activiti:field>
         </extensionElements>
+        <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="email" activiti:elementVariable="mail"></multiInstanceLoopCharacteristics>
       </serviceTask>
       <sequenceFlow id="flow64" sourceRef="servicetask4" targetRef="mailtask3"></sequenceFlow>
       <sequenceFlow id="flow66" sourceRef="mailtask3" targetRef="exclusivegateway11"></sequenceFlow>

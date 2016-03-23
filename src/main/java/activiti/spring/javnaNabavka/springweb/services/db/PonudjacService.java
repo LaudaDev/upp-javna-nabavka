@@ -81,7 +81,7 @@ public class PonudjacService {
 
 		return p;
 	}
-
+	
 	public Ponudjac setOfferFlag(String uId) {
 		Ponudjac p = new Ponudjac();
 		p = (Ponudjac) entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + uId + "'").getSingleResult();
@@ -139,25 +139,28 @@ public class PonudjacService {
 		for (Registar r: registarList) {
 			if (u.getUsername().equals(r.getClanoviRegistra())) {
 				exists = true;
-				break;
 			}
 		}
 		
 		if (!exists) {
-			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + u.getUsername() + "'").getSingleResult();
+			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
 			p.setCanSendOffer(false); // Lieeed
 			entityManager.merge(p);
 			
 			// Remove offer since applican lied...
-			Ponuda tmp = (Ponuda)entityManager.createQuery("SELECT p FROM Ponuda p WHERE user = '" + u.getUsername() + "'").getSingleResult();
+			Ponuda tmp = (Ponuda)entityManager.createQuery("SELECT p FROM Ponuda p WHERE p.user = '" + u.getUsername() + "'").getSingleResult();
 			entityManager.remove(tmp);
+			
+			System.out.println("Ponuda odbijena! Korisnik se ne nalazi u registru!!!");
 			
 			return p;
 		}
 		else {
-			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE id = '" + u.getUsername() + "'").getSingleResult();
+			Ponudjac p = (Ponudjac)entityManager.createQuery("SELECT p FROM Ponudjac p WHERE p.id = '" + u.getUsername() + "'").getSingleResult();
 			p.setSentOffer(true);
 			entityManager.merge(p);
+			
+			System.out.println("Korisnik postoji u registru.");
 			
 			return p;
 		}
