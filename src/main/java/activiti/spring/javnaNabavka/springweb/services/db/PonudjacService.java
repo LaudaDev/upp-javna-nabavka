@@ -232,7 +232,7 @@ public class PonudjacService {
 		}
 		*/
 		
-		String ponudjac = (String)entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.predlozenaCena ASC").getSingleResult();
+		String ponudjac = (String)entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.predlozenaCena ASC").setMaxResults(1).getSingleResult();
 		
 		System.out.println("Ponuda koja je najbolje rangirana je od " + ponudjac + " ponudjaca!");
 		
