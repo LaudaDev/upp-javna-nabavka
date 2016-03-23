@@ -172,10 +172,26 @@ public class PonudjacService {
 				offers.add((Ponuda) object);
 			}
 		}
-		
+
 		System.out.println("Poslate ponude uspesno prikupljene! Ukupno ih ima: " + offers.size());
 		
 		return offers;
+	}
+	
+	public List<String> getOfferEmail() {
+		List<String> emails = new ArrayList<String>();
+		
+		List<?> result = (List<?>) entityManager.createQuery("SELECT pn.email FROM Ponudjac pn WHERE pn.id = (SELECT p.user FROM Ponuda p)").getResultList();
+		for (Object object : result) {
+			if (object instanceof String) {
+				emails.add((String)object);
+			}
+		}
+		
+		System.out.println("FETCHING EMAILS FOR SENT OFFERS! Total size: " + emails.size());
+		
+		return emails;
+		
 	}
 	
 	public void rejectOffer() {
@@ -216,7 +232,7 @@ public class PonudjacService {
 		}
 		*/
 		
-		String ponudjac = (String)entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.ponudjenaCena ASC").getSingleResult();
+		String ponudjac = (String)entityManager.createQuery("SELECT p.user FROM Ponuda p ORDER BY p.predlozenaCena ASC").getSingleResult();
 		
 		System.out.println("Ponuda koja je najbolje rangirana je od " + ponudjac + " ponudjaca!");
 		
