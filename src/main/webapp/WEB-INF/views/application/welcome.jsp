@@ -23,8 +23,7 @@
 		
 	
 	<a href="./tasksList">Pregled zadataka</a> <br/>
-	<a href="./newInstance">Pokretanje nove instance</a> <br/>
-	
+	<c:if test="${canInitiate == true}"><a href="./newInstance">Pokretanje nove instance</a> <br/></c:if>
 	
 	<br/>
 	<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>

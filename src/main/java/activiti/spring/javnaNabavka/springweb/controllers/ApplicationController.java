@@ -1,5 +1,6 @@
 package activiti.spring.javnaNabavka.springweb.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -235,7 +236,7 @@ public class ApplicationController {
 	
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
- 
+		boolean canInitiate = false;
 		User user;
 		try{
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -243,9 +244,18 @@ public class ApplicationController {
 		catch(Exception ex){
 			return "redirect:/login";
 		}
+		
+		List<org.activiti.engine.identity.User> usr = (ArrayList<org.activiti.engine.identity.User>)iService.createUserQuery().memberOfGroup("narucilac").list();
+		for (org.activiti.engine.identity.User u: usr) {
+			if (u.getId().equals(user.getUsername())) {
+				canInitiate = true;
+				break;
+			}
+		}
 			
 		String name = user.getUsername();
 		model.addAttribute("username", name);
+		model.addAttribute("canInitiate", canInitiate);
 		return "application/welcome";
  
 	}
