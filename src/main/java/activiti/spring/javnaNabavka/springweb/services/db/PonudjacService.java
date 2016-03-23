@@ -181,7 +181,7 @@ public class PonudjacService {
 	public List<String> getOfferEmail() {
 		List<String> emails = new ArrayList<String>();
 		
-		List<?> result = (List<?>) entityManager.createQuery("SELECT pn.email FROM Ponudjac pn WHERE pn.id = (SELECT p.user FROM Ponuda p)").getResultList();
+		List<?> result = (List<?>) entityManager.createQuery("SELECT pn.email FROM Ponudjac pn WHERE pn.id IN (SELECT p.user FROM Ponuda p)").getResultList();
 		for (Object object : result) {
 			if (object instanceof String) {
 				emails.add((String)object);
