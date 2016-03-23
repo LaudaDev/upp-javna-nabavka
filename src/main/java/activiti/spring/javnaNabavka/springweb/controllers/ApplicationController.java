@@ -67,9 +67,6 @@ public class ApplicationController {
 
 		List<Task> candidateTasks = taskService.createTaskQuery().taskCandidateUser(id).list();
 		model.addAttribute("candidateTasks", candidateTasks);
-		
-		historyService.createHistoricDetailQuery();
-	
 
 		return "application/tasksList";
 
