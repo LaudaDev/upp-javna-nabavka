@@ -1,10 +1,12 @@
-<jsp:include page="./header.jsp" />
+<%@ include file="./header.jsp" %>
 	<!-- Page Content -->
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1>${message}</h1>
-                <c:if test="${canInitiate == true}"><p class="lead"><a href="./newInstance">Pokretanje nove instance</a></p></c:if>
+				<p class="lead">
+                <c:if test="${canInitiate == true}"><a href="./newInstance">Pokretanje nove instance</a></c:if>
+				</p>
             </div>
         </div>
     </div>

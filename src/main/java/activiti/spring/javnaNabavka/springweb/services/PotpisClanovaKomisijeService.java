@@ -34,5 +34,7 @@ public class PotpisClanovaKomisijeService implements TaskListener {
 		
 		System.out.println("BROJ POTVDJENIH CLANOVA KOMISIJE: " + brojPotvrdaClanstva);
 		exe.setVariable("brojPotvrdaClanstva", brojPotvrdaClanstva);
+		exe.setVariable("timerExpired", false);
+		exe.setVariable("timerExpiredOffer", false);
 	}
 }

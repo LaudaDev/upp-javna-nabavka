@@ -317,7 +317,7 @@ Vasa kvalifikacija za javnu nabavku je odbijena. ]]></activiti:expression>
       </intermediateCatchEvent>
       <sequenceFlow id="flow59" sourceRef="eventgateway2" targetRef="timerintermediatecatchevent2"></sequenceFlow>
       <scriptTask id="scripttask5" name="Update Timer" scriptFormat="javascript" activiti:autoStoreVariables="false">
-        <script>execution.setVariable("timerExpiredOffer", "true");</script>
+        <script>execution.setVariable("timerExpiredOffer", true);</script>
       </scriptTask>
       <exclusiveGateway id="exclusivegateway11" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow61" sourceRef="scripttask5" targetRef="exclusivegateway11"></sequenceFlow>
@@ -350,7 +350,7 @@ Vasa ponuda je primljena]]></activiti:string>
       <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
       <sequenceFlow id="flow68" sourceRef="exclusivegateway11" targetRef="exclusivegateway12"></sequenceFlow>
       <sequenceFlow id="flow69" name="Slanje ponuda aktuelno" sourceRef="exclusivegateway12" targetRef="signalintermediatethrowevent1">
-        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer != 'false'}]]></conditionExpression>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer != true}]]></conditionExpression>
       </sequenceFlow>
       <subProcess id="subprocess3" name="Obrada Ponuda">
         <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="sentOffers" activiti:elementVariable="ponuda"></multiInstanceLoopCharacteristics>
@@ -412,7 +412,7 @@ Vasa ponuda je primljena]]></activiti:string>
         <extensionElements>
           <activiti:executionListener event="take" expression="#{SharedService.timerExpired()}"></activiti:executionListener>
         </extensionElements>
-        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == 'true'}]]></conditionExpression>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${timerExpiredOffer == true}]]></conditionExpression>
       </sequenceFlow>
       <serviceTask id="mailtask4" name="Slanje zapisnika ponudjacima" activiti:type="mail">
         <extensionElements>

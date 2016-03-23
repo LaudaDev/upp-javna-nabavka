@@ -2,14 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<html>
+<html5>
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="description" content="UPP Javna Nabavka">
+	<meta name="author" content="Lauda">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 		<!-- Bootstrap Core CSS -->
@@ -35,7 +34,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand">Dobrodošli ${username}</a>
+			<span class="navbar-brand">Dobrodošli ${username}</span>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

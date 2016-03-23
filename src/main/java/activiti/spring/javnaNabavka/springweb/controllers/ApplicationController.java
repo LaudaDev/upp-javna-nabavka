@@ -259,7 +259,9 @@ public class ApplicationController {
 		for (org.activiti.engine.identity.User u: usr) {
 			if (u.getId().equals(user.getUsername())) {
 				canInitiate = true;
+				break;
 			}
+			
 		}
 			
 		String name = user.getUsername();
