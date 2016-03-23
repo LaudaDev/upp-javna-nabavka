@@ -14,7 +14,7 @@
 
 </head>
 <body>
-
+<center>
 <h2>Pokretanje nove instance procesa</h2>
 
 <c:if test="${fn:length(formProperties) > 0}">
@@ -73,7 +73,7 @@ Pokusati smestiti u poseban jsp fajl forme, pa ukljuciti pomocu include
 <a href="${pageContext.request.contextPath}/application/welcome">Početna</a>
 </div>
 
-	
+</center>	
 </body>
 </html>
 
