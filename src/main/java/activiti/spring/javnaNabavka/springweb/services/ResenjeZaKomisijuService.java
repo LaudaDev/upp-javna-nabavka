@@ -48,6 +48,7 @@ public class ResenjeZaKomisijuService implements JavaDelegate {
 				e.setVariable("komisijaLista", komisija);
 				e.setVariable("ponudjaci", ponudjac);
 				e.setVariable("brojPotvrdaClanstva", 0);
+				e.setVariable("processId", e.getProcessDefinitionId());
 			}
 		}
 	}

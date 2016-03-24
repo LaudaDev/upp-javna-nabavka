@@ -4,6 +4,7 @@
   <signal id="signalPrijava" name="signalPrijava" activiti:scope="global"></signal>
   <signal id="signalPozivZaPonude" name="signalPozivZaPonude" activiti:scope="global"></signal>
   <signal id="signalPonuda" name="signalPonuda" activiti:scope="global"></signal>
+  <signal id="throwZastitaPrava" name="throwZastitaPrava" activiti:scope="global"></signal>
   <process id="JavnaNabavkaProces" name="JavnaNabavkaProces" isExecutable="true">
     <startEvent id="startevent1" name="Start" activiti:initiator="${narucilac}" activiti:formKey="startForm"></startEvent>
     <userTask id="odlukaOPokretanjuPostupka" name="Odluka o pokretanju postupka" activiti:candidateGroups="narucilac" activiti:formKey="executeTask">
@@ -470,6 +471,27 @@ Vasa ponuda je prosla obradu. Uskoro cete znati rezultate konacnog tendera.]]></
     </subProcess>
     <sequenceFlow id="flow82" sourceRef="odlukaOPokretanjuPostupka" targetRef="subprocess1"></sequenceFlow>
     <sequenceFlow id="flow117" sourceRef="startevent1" targetRef="odlukaOPokretanjuPostupka"></sequenceFlow>
+    <boundaryEvent id="boundarysignal1" name="Signal" attachedToRef="subprocess1" cancelActivity="false">
+      <signalEventDefinition signalRef="throwZastitaPrava"></signalEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow119" sourceRef="boundarysignal1" targetRef="callactivity1"></sequenceFlow>
+    <callActivity id="callactivity1" name="Zastita Prava" calledElement="zastitaPrava">
+      <extensionElements>
+        <activiti:in source="processId" target="processId"></activiti:in>
+        <activiti:out source="zastitaValidna" target="zastitaValidna"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <exclusiveGateway id="exclusivegateway17" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow120" sourceRef="callactivity1" targetRef="exclusivegateway17"></sequenceFlow>
+    <endEvent id="endevent7" name="End"></endEvent>
+    <sequenceFlow id="flow121" sourceRef="exclusivegateway17" targetRef="endevent7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${zastitaValidna == 'true'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow122" sourceRef="exclusivegateway17" targetRef="subprocess1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${zastitaValidna != 'true'}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent8" name="End"></endEvent>
+    <sequenceFlow id="flow123" sourceRef="subprocess1" targetRef="endevent8"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_JavnaNabavkaProces">
     <bpmndi:BPMNPlane bpmnElement="JavnaNabavkaProces" id="BPMNPlane_JavnaNabavkaProces">
@@ -703,6 +725,21 @@ Vasa ponuda je prosla obradu. Uskoro cete znati rezultate konacnog tendera.]]></
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask15" id="BPMNShape_servicetask15">
         <omgdc:Bounds height="55.0" width="119.0" x="2115.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarysignal1" id="BPMNShape_boundarysignal1">
+        <omgdc:Bounds height="30.0" width="30.0" x="300.0" y="163.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callactivity1" id="BPMNShape_callactivity1">
+        <omgdc:Bounds height="55.0" width="105.0" x="150.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway17" id="BPMNShape_exclusivegateway17">
+        <omgdc:Bounds height="40.0" width="40.0" x="182.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent7" id="BPMNShape_endevent7">
+        <omgdc:Bounds height="35.0" width="35.0" x="80.0" y="263.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent8" id="BPMNShape_endevent8">
+        <omgdc:Bounds height="35.0" width="35.0" x="3426.0" y="338.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
         <omgdi:waypoint x="345.0" y="87.0"></omgdi:waypoint>
@@ -1097,6 +1134,27 @@ Vasa ponuda je prosla obradu. Uskoro cete znati rezultate konacnog tendera.]]></
       <bpmndi:BPMNEdge bpmnElement="flow117" id="BPMNEdge_flow117">
         <omgdi:waypoint x="115.0" y="373.0"></omgdi:waypoint>
         <omgdi:waypoint x="143.0" y="373.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow119" id="BPMNEdge_flow119">
+        <omgdi:waypoint x="300.0" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="255.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow120" id="BPMNEdge_flow120">
+        <omgdi:waypoint x="202.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="202.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow121" id="BPMNEdge_flow121">
+        <omgdi:waypoint x="182.0" y="280.0"></omgdi:waypoint>
+        <omgdi:waypoint x="115.0" y="280.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow122" id="BPMNEdge_flow122">
+        <omgdi:waypoint x="202.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="203.0" y="327.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="355.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow123" id="BPMNEdge_flow123">
+        <omgdi:waypoint x="3381.0" y="355.0"></omgdi:waypoint>
+        <omgdi:waypoint x="3426.0" y="355.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

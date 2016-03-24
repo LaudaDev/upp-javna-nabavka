@@ -13,12 +13,12 @@
 
 							<c:if test="${formProperty.type.name.equals('string') || formProperty.type.name.equals('date')}">
 							<input type="text" class="form-control" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
-							    <c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
+							    <c:if test="${formProperty.writable==false}"> disabled </c:if> <c:if test="${formProperty.required==true}"> required </c:if> value="${formProperty.value}" />
 							</c:if>
 
 							<c:if test="${formProperty.type.name.equals('long') || formProperty.type.name.equals('double')}">
 							<input type="text" class="form-control" <c:if test="${formProperty.writable==true}"> name="${formProperty.id}"</c:if>
-							    <c:if test="${formProperty.writable==false}"> disabled </c:if>  value="${formProperty.value}" />
+							    <c:if test="${formProperty.writable==false}"> disabled </c:if> <c:if test="${formProperty.required==true}"> required </c:if> value="${formProperty.value}" />
 							</c:if>
 
 							<c:if test="${formProperty.type.name.equals('boolean')}">

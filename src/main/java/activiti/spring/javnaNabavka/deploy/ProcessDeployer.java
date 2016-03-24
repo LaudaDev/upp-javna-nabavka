@@ -19,6 +19,8 @@ public class ProcessDeployer {
 		models.add("diagrams/UPP_JavnaNabavka.bpmn");
 		models.add("diagrams/partials/Prijava.bpmn");
 		models.add("diagrams/partials/Ponuda.bpmn");
+		models.add("diagrams/partials/InitZastita.bpmn");
+		models.add("diagrams/partials/ZastitaPrava.bpmn");
 		
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RepositoryService repositoryService = processEngine.getRepositoryService();

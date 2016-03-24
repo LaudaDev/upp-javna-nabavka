@@ -46,6 +46,9 @@
 					<a href="${pageContext.request.contextPath}/application/tasksList">Pregled Zadataka</a>
 				</li>
 				<li>
+					<a href="${pageContext.request.contextPath}/application/zastita">ZastitaPrava</a>
+				</li>
+				<li>
 					<a href="${pageContext.request.contextPath}/application/stats">Status</a>
 				</li>
 				<li>

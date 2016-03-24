@@ -72,6 +72,32 @@ public class ApplicationController {
 		return "application/tasksList";
 
 	}
+	
+	@RequestMapping(value="/zastita", method = RequestMethod.GET)
+	public String showZastitaPrava(ModelMap model) {
+		User user;
+		boolean canSee = false;
+		try{
+			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		catch(Exception ex){
+			return "redirect:/login";
+		}
+		
+		List<org.activiti.engine.identity.User> usr = (ArrayList<org.activiti.engine.identity.User>)iService.createUserQuery().memberOfGroup("ponudjac").list();
+		for (org.activiti.engine.identity.User u: usr) {
+			if (u.getId().equals(user.getUsername())) {
+				canSee = true;
+				break;
+			}
+			
+		}
+		
+		if (canSee)
+			runtimeService.startProcessInstanceByKey("initZastita");
+		
+		return "application/tasksList";
+	}
 
 
 	@RequestMapping(value="/claim/{taskId}", method = RequestMethod.GET)

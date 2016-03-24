@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 import javax.persistence.EntityManager;
@@ -29,7 +30,18 @@ public class SharedService {
 	private EntityManager em;
 
 	public boolean checkPlan() {
-		return true;
+		Random random = new Random();
+		boolean tmp = random.nextBoolean();
+		
+		System.out.println("Provera plana vratila " + tmp);
+		
+		if (tmp)
+			System.out.println("Nabavka se nastavlja!");
+		else
+			System.out.println("Nabavka se zatvara!");
+		
+		return tmp;
+		
 	}
 	
 	public void throwSignal() {
@@ -88,6 +100,19 @@ public class SharedService {
 			System.out.println("Prijava uspesno primljena. Saljem e-mail o prijemu prijave!");
 		
 		
+		
+		return tmp;
+	}
+	
+	public boolean getRandom() {
+		Random random = new Random();
+		boolean tmp = random.nextBoolean();
+		System.out.println("Random je vratio: " + tmp);
+		
+		if (!tmp)
+			System.out.println("Glavni proces se nastavlja!");
+		else
+			System.out.println("Zastita prava validna, glavni proces se gasi!");
 		
 		return tmp;
 	}

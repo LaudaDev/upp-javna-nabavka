@@ -90,4 +90,6 @@
 	<bean id="SharedService" class="activiti.spring.javnaNabavka.springweb.services.SharedService" />
 	<bean id="SharedListener" class="activiti.spring.javnaNabavka.util.SharedListener" />
 	<bean id="GetAllApplicants" class="activiti.spring.javnaNabavka.util.GetAllApplicants" />
+	<bean id="SuspendProcess" class="activiti.spring.javnaNabavka.util.SuspendProcess" />
+	<bean id="ActivateProcess" class="activiti.spring.javnaNabavka.util.ActivateProcess" />
 </beans>
